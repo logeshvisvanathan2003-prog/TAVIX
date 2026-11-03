@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../auth.jsx";
 import { STEPS, Studio, AiHealth } from "./Dashboard.jsx";
@@ -156,7 +156,7 @@ export default function Admin() {
   const TABS = [["overview", "Overview"], ["bookings", "Missions"], ["tickets", "Tickets" + (s?.tickets_unread ? ` (${s.tickets_unread})` : "")], ["clients", "Clients"], ["chats", "AI chats"], ["projects", "Projects"]];
   return (
     <main className="min-h-screen bg-black text-white pt-24 pb-16"><div className="max-w-6xl mx-auto px-5">
-      <h1 className="text-xl">Command centre</h1><p className="text-white/60 mt-1">Signed in as {user?.name}. Live data, refreshed every 5 seconds. Client builds start automatically; you monitor, support and review.</p>
+      <div className="flex justify-between gap-3 flex-wrap items-center"><h1 className="text-xl">Command centre</h1><Link to="/admin/one-tavix" className="btn-o">ONE TAVIX AI users →</Link></div><p className="text-white/60 mt-1">Signed in as {user?.name}. Live data, refreshed every 5 seconds. Client builds start automatically; you monitor, support and review.</p>
       {adminError && <div className="mt-4 border border-tavix-red bg-tavix-red/10 p-4 cut-sm" role="alert">
         <p className="font-semibold">{adminError}</p>
         {(accessDenied.current || user?.role !== "admin") && <button className="btn mt-3 !py-2" onClick={() => { logout(); navigate("/admin/login"); }}>Sign in again</button>}

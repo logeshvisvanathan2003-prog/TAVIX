@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../auth.jsx";
 export default function Navbar() {
   const { user, logout } = useAuth(); const nav = useNavigate(); const [open, setOpen] = useState(false);
-  const links = [["Sectors", "/#sectors"], ["Projects", "/#projects"], ["Client feed", "/#feed"], ["Founder", "/#founder"], ["Book", "/#book"], ["XP & rewards", "/#playbook"], ["My missions", "/#client-missions"]];
+  const links = [["Sectors", "/#sectors"], ["ONE TAVIX AI", "/#one-tavix"], ["Projects", "/#projects"], ["Client feed", "/#feed"], ["Founder", "/#founder"], ["Book", "/#book"], ["XP & rewards", "/#playbook"], ["My missions", "/#client-missions"]];
   return (
     <header className="site-chrome fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur border-b border-black/10">
       <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">

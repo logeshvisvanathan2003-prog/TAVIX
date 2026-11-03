@@ -174,6 +174,20 @@ function Booking() {
   );
 }
 
+export const ONE_TAVIX_URL = "https://one.tavixai.in";
+function OneTavix() {
+  const feats = [["Kingdom", "Learn by playing quests, earn XP and badges."], ["Endless Tower", "Climb floors of questions that adapt to you."], ["Build Track", "Turn any real problem into a working project."]];
+  return (
+    <section id="one-tavix" className="py-24 bg-white"><div className="max-w-7xl mx-auto px-5 grid lg:grid-cols-[1.2fr,1fr] gap-10 items-center">
+      <Reveal><p className="font-display text-xs text-tavix-red">NEW · FOR LEARNERS</p>
+        <h2 className="text-2xl sm:text-3xl mt-2">Experience ONE TAVIX AI for Learners</h2>
+        <p className="mt-4 text-black/75 max-w-xl">A gamified place to learn software by building. Describe a problem and get a complete project, then climb the Endless Tower and level up in the Kingdom. Free to join.</p>
+        <div className="mt-6 flex gap-3 flex-wrap"><a href={ONE_TAVIX_URL} target="_blank" rel="noopener noreferrer" className="btn">Experience ONE TAVIX AI</a><a href={ONE_TAVIX_URL + "/register"} target="_blank" rel="noopener noreferrer" className="btn-o">Create free account</a></div></Reveal>
+      <Reveal delay={120}><div className="grid gap-3">{feats.map(([t, d]) => <div key={t} className="bg-black text-white p-5 cut-sm border-l-4 border-tavix-red"><h3 className="text-xs">{t}</h3><p className="mt-1 text-white/70 text-sm">{d}</p></div>)}</div></Reveal>
+    </div></section>
+  );
+}
+
 export default function Home() {
   const [projects, setProjects] = useState([]), [feedback, setFeedback] = useState([]);
   const loadPr = () => api("/projects").then(setProjects).catch(() => {});
@@ -181,6 +195,7 @@ export default function Home() {
   useEffect(() => { loadPr(); loadFb(); const t = setInterval(() => { loadPr(); loadFb(); }, 15000); return () => clearInterval(t); }, []);
   return (<>
     <Hero projects={projects} feedback={feedback} />
+    <OneTavix />
     <section id="sectors" className="py-24 bg-black text-white"><div className="max-w-7xl mx-auto px-5">
       <Reveal><h2 className="text-2xl sm:text-3xl">Choose your sector</h2><p className="mt-3 text-white/70 max-w-xl">Each sector is a mission track. Pick one to see the tools we use and start a booking.</p></Reveal>
       <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{SECTORS.map((s, i) => <SectorCard key={s.n} s={s} i={i} />)}</div></div></section>

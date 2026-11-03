@@ -177,6 +177,32 @@ def admin_login(b: LoginIn, db=Depends(get_db)):
     return {"token": make_token(u), "user": d(u)}
 
 
+ONE_URL = os.getenv("ONE_TAVIX_URL", "https://one.tavixai.in").rstrip("/")
+ONE_KEY = os.getenv("ONE_TAVIX_KEY", "").strip()
+
+
+@app.get("/api/admin/onetavix/{part}")
+async def onetavix(part: str, q: str = "", _=Depends(admin_only)):
+    """Server-to-server read of ONE TAVIX AI (users, sign-ins, activity). The key never reaches the browser."""
+    import httpx
+    if part not in ("summary", "users", "activity"):
+        raise HTTPException(404, "Unknown section")
+    if not ONE_KEY:
+        raise HTTPException(503, "ONE_TAVIX_KEY is not set in the website .env, so ONE TAVIX AI cannot be read yet.")
+    try:
+        async with httpx.AsyncClient(timeout=10) as c:
+            r = await c.get(f"{ONE_URL}/api/partner/{part}", params={"q": q} if part == "users" and q else None, headers={"X-Partner-Key": ONE_KEY})
+    except Exception:
+        raise HTTPException(502, "Cannot reach ONE TAVIX AI right now.")
+    if r.status_code == 401:
+        raise HTTPException(502, "ONE TAVIX AI rejected the key. ONE_TAVIX_KEY must equal PARTNER_API_KEY on that server.")
+    if r.status_code == 503:
+        raise HTTPException(502, "PARTNER_API_KEY is empty on the ONE TAVIX AI server, so the feature is switched off there.")
+    if r.status_code != 200:
+        raise HTTPException(502, f"ONE TAVIX AI answered {r.status_code}. Deploy its v21 update first.")
+    return r.json()
+
+
 @app.get("/api/ai/health")
 async def ai_health():
     import httpx
