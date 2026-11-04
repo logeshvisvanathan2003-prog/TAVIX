@@ -33,7 +33,7 @@ function Hero({ projects, feedback }) {
         <div>
           <h1 className="text-3xl sm:text-5xl leading-tight">Software, hardware and AI that fix real problems.</h1>
           <p className="mt-6 max-w-lg text-xl text-black/70">TAVIX builds with web, ML, embedded systems and blockchain, and shows you every project, result and client review in the open. Innovation with honour.</p>
-          <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a><button onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))} className="btn-o">Ask TAVIX AI</button></div>
+          <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a></div>
           <dl className="mt-10 grid grid-cols-3 gap-4 max-w-md">
             {[["Projects delivered", done], ["Client rating", avg], ["Sectors", SECTORS.length]].map(([l, v]) => (
               <div key={l} className="border-l-4 border-tavix-red pl-3"><dt className="text-sm text-black/60">{l}</dt><dd className="font-display text-2xl">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}

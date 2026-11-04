@@ -24,8 +24,7 @@ export default function Navbar() {
               <p className="font-display text-[10px] text-white/50 px-2">AVAILABLE NOW</p>
               {PRODUCTS.map((p, i) => <a key={p.id} href={p.url} target={p.external ? "_blank" : undefined} rel="noopener noreferrer" style={{ animationDelay: i * 80 + 80 + "ms" }} className="dd-item mt-2 block p-3 border-l-4 border-tavix-red bg-white/5 hover:bg-tavix-red/20 transition group">
                 <div className="flex items-center justify-between"><span className="font-display text-xs">{p.name}</span><span className="text-[10px] font-display bg-green-600 px-2 py-0.5">{p.status}</span></div>
-                <p className="text-sm text-white/70 mt-1">{p.blurb}</p><p className="text-tavix-red text-sm mt-2 group-hover:translate-x-1 transition">Open {p.name} →</p></a>)}
-              <p className="mt-3 px-2 text-xs text-white/40">More products will appear here as they are completed.</p>
+                </a>)}
             </div></div>}
           </div>
           <a href="/#portfolio" className={cls}>Portfolio</a>
