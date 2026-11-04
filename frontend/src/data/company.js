@@ -33,3 +33,14 @@ export const LIFE = [
   ["Learn by building", "Growth comes from shipping, reviewing and improving."],
   ["Direct access", "A small team where ideas reach the founder quickly."],
 ];
+
+// Projects the TAVIX team has delivered and published. Add a new object here after every delivery, then rebuild the frontend.
+// (Client missions started through "Book a build" appear next to these automatically.)
+export const DELIVERED = [
+  { id: "d-one", sector: "AI & ML Builds", year: "2026", title: "ONE TAVIX AI",
+    summary: "A gamified learning and building platform: describe a real problem, get a complete project, then learn it level by level with quests, an adaptive Tower and a live Studio.",
+    tech: "React · FastAPI · Docker · AWS · own AI model", url: "https://one.tavixai.in", cta: "Open ONE TAVIX AI" },
+  { id: "d-site", sector: "Web Development & Testing", year: "2026", title: "TAVIX company website",
+    summary: "This website: company pages, live project transparency, client reviews, careers, bookings and the TAVIX AI assistant, deployed on AWS.",
+    tech: "React · FastAPI · PostgreSQL · Caddy · AWS", url: "https://tavixai.in", cta: "You are here" },
+];

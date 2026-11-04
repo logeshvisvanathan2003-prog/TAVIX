@@ -6,9 +6,7 @@ import { useAuth } from "../auth.jsx";
 import Reveal from "../components/Reveal.jsx";
 import Particles from "../components/Particles.jsx";
 import { award, confetti } from "../gamify.js";
-import Playbook from "../components/Playbook.jsx";
-import Dashboard from "./Dashboard.jsx";
-import { PRODUCTS, COMPANY } from "../data/company.js";
+import { PRODUCTS, COMPANY, DELIVERED } from "../data/company.js";
 
 export const SECTORS = [
   { n: "Web Development & Testing", d: "Dashboards, portals and APIs, with automated and manual testing built in.", k: "React · FastAPI · QA" },
@@ -35,7 +33,7 @@ function Hero({ projects, feedback }) {
         <div>
           <h1 className="text-3xl sm:text-5xl leading-tight">Software, hardware and AI that fix real problems.</h1>
           <p className="mt-6 max-w-lg text-xl text-black/70">TAVIX builds with web, ML, embedded systems and blockchain, and shows you every project, result and client review in the open. Innovation with honour.</p>
-          <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a><a href="#book" className="btn-o">Start a mission</a></div>
+          <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a><button onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))} className="btn-o">Ask TAVIX AI</button></div>
           <dl className="mt-10 grid grid-cols-3 gap-4 max-w-md">
             {[["Projects delivered", done], ["Client rating", avg], ["Sectors", SECTORS.length]].map(([l, v]) => (
               <div key={l} className="border-l-4 border-tavix-red pl-3"><dt className="text-sm text-black/60">{l}</dt><dd className="font-display text-2xl">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}
@@ -50,17 +48,18 @@ function Hero({ projects, feedback }) {
 }
 
 function SectorCard({ s, i }) {
-  const pick = () => { window.dispatchEvent(new CustomEvent("pick-sector", { detail: s.n })); document.getElementById("book").scrollIntoView(); };
-  const ref = useRef(); const [open, setOpen] = useState(false);
+  const pick = () => { window.dispatchEvent(new CustomEvent("open-tavix-ai")); };
+  const ref = useRef();
   const tilt = (e) => { const r = ref.current.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-    ref.current.style.transform = `perspective(700px) rotateY(${x * 12}deg) rotateX(${-y * 12}deg)`; };
+    ref.current.style.transform = `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 7}deg) translateY(-4px)`; };
   return (
     <Reveal delay={i * 80}>
-      <div ref={ref} onPointerMove={tilt} onPointerLeave={() => (ref.current.style.transform = "")} className="bg-white text-black p-6 cut h-full transition-transform duration-200 flex flex-col">
-        <h3 className="text-sm leading-relaxed">{s.n}</h3>
-        <p className="mt-3 text-black/70 flex-1">{s.d}</p>
-        <button onClick={() => setOpen(!open)} className="mt-4 text-left font-semibold text-tavix-red">{open ? "Hide tools" : "See the tools"}</button>
-        <div className={"overflow-hidden transition-all duration-500 " + (open ? "max-h-24 mt-2" : "max-h-0")}><p className="font-semibold">{s.k}</p></div>
+      <div ref={ref} onPointerMove={tilt} onPointerLeave={() => (ref.current.style.transform = "")} className="area-card group h-full transition-transform duration-200">
+        <span className="area-no">{String(i + 1).padStart(2, "0")}</span>
+        <h3 className="area-t">{s.n}</h3>
+        <p className="area-d">{s.d}</p>
+        <ul className="area-tags">{s.k.split("·").map((t) => <li key={t}>{t.trim()}</li>)}</ul>
+        <button onClick={pick} className="area-go">Ask Tavix AI about this <span aria-hidden="true">→</span></button>
       </div>
     </Reveal>
   );
@@ -100,14 +99,21 @@ function ProjectModal({ p, onClose, onReviewed }) {
 
 function Projects({ projects, reload }) {
   const [tab, setTab] = useState("completed"); const [sel, setSel] = useState(null);
-  const list = projects.filter((p) => p.status === tab);
+  const all = [...DELIVERED.map((d) => ({ ...d, status: "completed", fixed: true })), ...projects];
+  const list = all.filter((p) => p.status === tab);
   return (
     <section id="portfolio" className="py-24 bg-white"><div className="max-w-7xl mx-auto px-5">
-      <Reveal><h2 className="text-2xl sm:text-3xl">Project transparency</h2><p className="mt-3 max-w-2xl text-black/70">Live missions appear here as soon as Tavix AI finishes a build. Progress and reviews update when a client rates the work or the TAVIX team marks it delivered. Sample cards stay labelled Sample.</p></Reveal>
-      <div className="mt-8 flex gap-2 flex-wrap">{Object.entries(STATUS).map(([k, v]) => <button key={k} onClick={() => setTab(k)} className={"px-5 py-2 font-semibold cut-sm " + (tab === k ? "bg-tavix-red text-white" : "bg-black/5 hover:bg-black/10")}>{v} ({projects.filter((p) => p.status === k).length})</button>)}</div>
+      <Reveal><p className="font-display text-xs text-tavix-red">OUR WORK</p><h2 className="text-2xl sm:text-3xl mt-2">Projects by TAVIX</h2><p className="mt-3 max-w-2xl text-black/70">What the TAVIX team has delivered, and what is being built right now. Client missions appear here as Tavix AI builds them, and their progress and reviews update when a client rates the work.</p></Reveal>
+      <div className="mt-8 flex gap-2 flex-wrap">{Object.entries(STATUS).map(([k, v]) => <button key={k} onClick={() => setTab(k)} className={"px-5 py-2 font-semibold cut-sm " + (tab === k ? "bg-tavix-red text-white" : "bg-black/5 hover:bg-black/10")}>{v} ({all.filter((p) => p.status === k).length})</button>)}</div>
       <div key={tab} className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {list.length === 0 && <p className="text-black/60">Nothing in this stage yet.</p>}
-        {list.map((p, i) => <Reveal key={p.id} delay={i * 80}><article className="border border-black/15 p-6 cut h-full hover:border-tavix-red transition flex flex-col">
+        {list.map((p, i) => p.fixed ? <Reveal key={p.id} delay={i * 80}><article className="border border-black/15 p-6 cut h-full hover:border-tavix-red transition flex flex-col">
+          <div className="flex justify-between gap-2 text-sm"><span className="text-tavix-red font-semibold">{p.sector}</span><span className="bg-green-600 text-white px-2">Live · {p.year}</span></div>
+          <h3 className="mt-3 text-sm leading-relaxed">{p.title}</h3><p className="mt-2 text-black/70 flex-1">{p.summary}</p><p className="mt-2 text-sm font-semibold">{p.tech}</p>
+          <div className="mt-4 h-2 bg-black/10"><div className="h-full bg-tavix-red" style={{ width: "100%" }} /></div>
+          <div className="mt-1 text-sm">100% · delivered by TAVIX</div>
+          {p.url && p.url.includes(location.hostname) ? <span className="mt-4 self-start px-5 py-3 font-semibold bg-black/10 text-black/60 cut-sm">{p.cta}</span> : <a href={p.url} target="_blank" rel="noopener noreferrer" className="btn mt-4 self-start magnetic">{p.cta}</a>}
+        </article></Reveal> : <Reveal key={p.id} delay={i * 80}><article className="border border-black/15 p-6 cut h-full hover:border-tavix-red transition flex flex-col">
           <div className="flex justify-between gap-2 text-sm"><span className="text-tavix-red font-semibold">{p.sector}</span>{p.demo && <span className="bg-black text-white px-2">Sample</span>}</div>
           <h3 className="mt-3 text-sm leading-relaxed">{p.title}</h3><p className="mt-2 text-black/70 flex-1">{p.summary}</p><p className="mt-2 text-sm font-semibold">{p.tech}</p>
           <div className="mt-4 h-2 bg-black/10"><div className="h-full bg-tavix-red transition-all duration-1000" style={{ width: p.progress + "%" }} /></div>
@@ -153,12 +159,12 @@ function Booking() {
   const [busy, setBusy] = useState(false);
   // Booking done -> straight to My missions, where the live build starts on screen. No approval step.
   const submit = async (e) => { e.preventDefault(); setErr(""); setBusy(true);
-    try { const b = await api("/bookings", { method: "POST", body: f }); setDone(b.id); setF(empty); award("mission-" + b.id, 100, "Mission launched"); confetti(90); setTimeout(() => nav(`/?open=${b.id}#client-missions`), 1400); }
+    try { const b = await api("/bookings", { method: "POST", body: f }); setDone(b.id); setF(empty); award("mission-" + b.id, 100, "Mission launched"); confetti(90); }
     catch (x) { setErr(x.message); setBusy(false); } };
   return (
     <section id="book" className="py-24 bg-tavix-red text-white"><div className="max-w-3xl mx-auto px-5">
       <Reveal><h2 className="text-2xl sm:text-3xl">Launch a mission</h2><p className="mt-3 text-white/90">Describe the problem you need solved. Tavix AI reads every booking too, so you can ask it about yours in chat.</p></Reveal>
-      {done ? <div className="mt-8 bg-black p-8 cut animate-pop"><h3 className="text-sm">Mission #{done} launched ★</h3><p className="mt-2">Tavix AI is already building it. Taking you to My missions to watch it live…</p><div className="orb mt-4" /><Link to={`/?open=${done}#client-missions`} className="btn mt-4">Watch it now</Link></div>
+      {done ? <div className="mt-8 bg-black p-8 cut animate-pop"><h3 className="text-sm">Mission #{done} launched ★</h3><p className="mt-2">Tavix AI is already building it. The TAVIX team will follow up with you.</p><div className="orb mt-4" /><Link to={`/?open=${done}#client-missions`} className="btn mt-4">Watch it now</Link></div>
         : !user ? <div className="mt-8 bg-black p-8 cut"><p>Log in to place a booking.</p><div className="mt-4 flex gap-3"><Link to="/login" className="btn">Log in</Link><Link to="/register" className="btn-o">Register</Link></div></div>
         : <form onSubmit={submit} className="mt-8 bg-black p-6 sm:p-8 cut space-y-4">
           <label className="block">Sector<select className="input mt-1" value={f.sector} onChange={(e) => setF({ ...f, sector: e.target.value })}>{SECTORS.map((s) => <option key={s.n} className="text-black">{s.n}</option>)}</select></label>
@@ -199,17 +205,15 @@ export default function Home() {
           <ul className="mt-4 grid sm:grid-cols-2 gap-2 relative">{p.points.map((x) => <li key={x} className="text-sm text-white/80 flex gap-2"><span className="text-tavix-red">▸</span>{x}</li>)}</ul>
           <a href={p.url} target="_blank" rel="noopener noreferrer" className="btn mt-6 relative">Experience {p.name}</a></div></Reveal>)}</div></div></section>
     <section id="sectors" className="py-24 bg-white"><div className="max-w-7xl mx-auto px-5">
-      <Reveal><p className="font-display text-xs text-tavix-red">WHAT WE BUILD</p><h2 className="text-2xl sm:text-3xl mt-2">Five areas of work</h2></Reveal>
-      <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{SECTORS.map((s, i) => <SectorCard key={s.n} s={s} i={i} />)}</div></div></section>
+      <Reveal><p className="font-display text-xs text-tavix-red">WHAT WE BUILD</p><h2 className="text-2xl sm:text-3xl mt-2">Five areas of work</h2><p className="mt-3 max-w-2xl text-black/70">Every project we take on falls in one of these areas. Pick the closest one and Tavix AI shapes the plan around it.</p></Reveal>
+      <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{SECTORS.map((s, i) => <SectorCard key={s.n} s={s} i={i} />)}
+        <Reveal delay={SECTORS.length * 80}><div className="area-card area-cta h-full"><span className="area-no">+</span><h3 className="area-t">Something else?</h3><p className="area-d">Describe it in your own words. Tavix AI reads the request, picks the right area and will plan it with you.</p><button className="area-go" onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))}>Ask TAVIX AI <span aria-hidden="true">→</span></button></div></Reveal></div></div></section>
     <Projects projects={projects} reload={() => { loadPr(); loadFb(); }} />
-    <Dashboard embedded />
     <Feed feedback={feedback} reload={loadFb} projects={projects} />
     <section id="founder" className="py-24 bg-white"><div className="max-w-5xl mx-auto px-5 grid md:grid-cols-[auto,1fr] gap-10 items-center">
       <Reveal><div className="w-48 h-48 bg-black cut grid place-items-center relative overflow-hidden"><span className="font-display text-5xl text-tavix-red">LV</span><div className="absolute inset-0 bg-gradient-to-b from-transparent via-tavix-red/20 to-transparent animate-scan" /></div></Reveal>
       <Reveal delay={120}><p className="font-display text-xs text-tavix-red">FOUNDER</p><h2 className="text-2xl mt-1">Logesh Visvanathan</h2><p className="text-tavix-red font-semibold mt-1">Founder & CEO</p>
         <p className="mt-4 text-black/75 max-w-xl">Logesh started TAVIX to take on real problems in the automobile industry, inspired by Tesla’s approach of joining hardware, software and AI. His rule for the company: innovation with honour, which means clear scope, open progress and real client feedback.</p></Reveal></div></section>
-    <Booking />
-    <Playbook />
     <section className="py-20 bg-tavix-red text-white"><div className="max-w-5xl mx-auto px-5 text-center"><Reveal><h2 className="text-2xl sm:text-3xl">Want to build with us?</h2><p className="mt-3 text-white/90">See how we hire, what life at TAVIX is like and which roles are open.</p><Link to="/careers" className="btn !bg-black mt-6">Explore careers</Link></Reveal></div></section>
     <footer id="contact" className="bg-black text-white py-12"><div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 gap-8">
       <div><div className="w-28 bg-white p-1"><AnimLogo /></div><p className="mt-3 text-white/60 text-sm">{COMPANY.legal}</p><p className="font-display text-[10px] mt-2 text-tavix-red">{COMPANY.motto.toUpperCase()}</p></div>

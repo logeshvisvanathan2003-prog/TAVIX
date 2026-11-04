@@ -31,7 +31,6 @@ export default function Navbar() {
           <a href="/#portfolio" className={cls}>Portfolio</a>
           <Link to="/careers" className={cls}>Careers</Link>
           <a href="/#contact" className={cls}>Contact</a>
-          {user && <a href="/#client-missions" className={cls}>My missions</a>}
         </nav>
         <div className="hidden lg:flex items-center gap-3"><button onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))} className="btn-o">Ask TAVIX AI</button>
           {user ? <>{user.role === "admin" ? <Link to="/admin" className="btn">Admin</Link> : <Link to="/chat" className="btn">TAVIX AI page</Link>}<button onClick={() => { logout(); nav("/"); }} className="font-semibold hover:text-tavix-red">Log out</button></>
@@ -42,7 +41,7 @@ export default function Navbar() {
         <Link to="/">Home</Link><a href="/#about">About</a>
         <div><p className="text-sm text-black/50">Products</p>{PRODUCTS.map((p) => <a key={p.id} href={p.url} className="block mt-1 text-tavix-red">{p.name} · {p.status} →</a>)}</div>
         <a href="/#portfolio">Portfolio</a><Link to="/careers">Careers</Link><a href="/#contact">Contact</a><Link to="/chat">TAVIX AI page</Link>
-        {user ? <><a href="/#client-missions">My missions</a>{user.role === "admin" && <Link to="/admin">Admin</Link>}<button className="text-left" onClick={() => { logout(); nav("/"); }}>Log out</button></> : <><Link to="/login">Log in</Link><Link to="/register">Register</Link></>}
+        {user ? <>{user.role === "admin" && <Link to="/admin">Admin</Link>}<button className="text-left" onClick={() => { logout(); nav("/"); }}>Log out</button></> : <><Link to="/login">Log in</Link><Link to="/register">Register</Link></>}
       </div>}
     </header>
   );
