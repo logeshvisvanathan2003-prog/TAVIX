@@ -5,6 +5,8 @@ import { useAuth } from "../auth.jsx";
 import { createChatSessionId, currentChatSessionId, setCurrentChatSessionId } from "../chatSessions.js";
 import ChatPanel from "../components/ChatPanel.jsx";
 import ClientWorkspace from "../components/ClientWorkspace.jsx";
+import HudRings from "../components/HudRings.jsx";
+import LogoAnim from "../components/LogoAnim.jsx";
 
 export default function ChatPage() {
   const [q] = useSearchParams();
@@ -79,15 +81,19 @@ export default function ChatPage() {
   return (
     <ClientWorkspace active="assistant" title="TAVIX AI" subtitle={m ? `Mission #${m} · project-aware assistant` : ""} historyChats={historyChats} historyLoading={historyLoading} historyError={historyError} historyActionError={historyActionError} deletingChatId={deletingChatId} onChatDelete={deleteChat} selectedChatId={sessionId} onChatSelect={selectChat} onMissionSelect={selectWorkspaceItem}>
       <main className="workspace-chat-page">
-        <div className="workspace-chat-landing">
-          <div className="workspace-chat-intro">
-            <p className="font-display text-[10px] uppercase tracking-[.2em] text-tavix-red">TAVIX · YOUR AI WORKSPACE</p>
-            <h2 className="mt-3 text-3xl sm:text-4xl">{m ? `Mission #${m}` : `Hello${user?.name ? `, ${user.name.split(" ")[0]}` : ""}.`}</h2>
-            <p className="mt-3 text-sm text-black/55">{m ? "Ask about the requirements, build progress, or next steps." : "What are we building today?"}</p>
+        <div className="workspace-chat-landing tx-land">
+          <div className="tx-col">
+            <div className="workspace-chat-intro">
+              <span className="tx-tag">{m ? "TAVIX · PROJECT-AWARE ASSISTANT" : "ONE AI. YOUR WORKSPACE. UNLIMITED POSSIBILITIES."}</span>
+              <h2 className="tx-hello">{m ? `Mission #${m}` : `Hello${user?.name ? `, ${user.name.split(" ")[0]}` : ""}.`}</h2>
+              <p className="tx-sub">{m ? "Ask about the requirements, build progress, or next steps." : "What are we building today?"}</p>
+            </div>
+            <div className="workspace-chat-frame">
+              <ChatPanel key={sessionId} mission={m} sessionId={sessionId} variant="page" />
+            </div>
+            <p className="tx-term" aria-hidden="true"><b>&gt;</b> tavix ai<span className="caret" /></p>
           </div>
-          <div className="workspace-chat-frame">
-            <ChatPanel key={sessionId} mission={m} sessionId={sessionId} variant="page" />
-          </div>
+          <div className="tx-art" aria-hidden="true"><HudRings /><LogoAnim /></div>
         </div>
       </main>
     </ClientWorkspace>
