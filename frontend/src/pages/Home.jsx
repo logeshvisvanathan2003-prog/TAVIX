@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import AnimLogo from "../components/AnimLogo.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useAuth } from "../auth.jsx";
@@ -41,8 +42,7 @@ function Hero({ projects, feedback }) {
           </dl>
         </div>
         <div className="relative flex justify-center">
-          <div className="absolute inset-0 overflow-hidden pointer-events-none"><div className="h-1/3 w-full bg-gradient-to-b from-transparent via-tavix-red/20 to-transparent animate-scan" /></div>
-          <img src="/logo.png" alt="TAVIX wing logo" className="relative w-full max-w-xl animate-wingL" />
+          <AnimLogo rings className="w-full max-w-[560px]" />
         </div>
       </div>
     </section>
@@ -212,7 +212,7 @@ export default function Home() {
     <Playbook />
     <section className="py-20 bg-tavix-red text-white"><div className="max-w-5xl mx-auto px-5 text-center"><Reveal><h2 className="text-2xl sm:text-3xl">Want to build with us?</h2><p className="mt-3 text-white/90">See how we hire, what life at TAVIX is like and which roles are open.</p><Link to="/careers" className="btn !bg-black mt-6">Explore careers</Link></Reveal></div></section>
     <footer id="contact" className="bg-black text-white py-12"><div className="max-w-7xl mx-auto px-5 grid md:grid-cols-3 gap-8">
-      <div><img src="/logo.png" alt="TAVIX" className="h-10 bg-white p-1" /><p className="mt-3 text-white/60 text-sm">{COMPANY.legal}</p><p className="font-display text-[10px] mt-2 text-tavix-red">{COMPANY.motto.toUpperCase()}</p></div>
+      <div><div className="w-28 bg-white p-1"><AnimLogo /></div><p className="mt-3 text-white/60 text-sm">{COMPANY.legal}</p><p className="font-display text-[10px] mt-2 text-tavix-red">{COMPANY.motto.toUpperCase()}</p></div>
       <div><h3 className="text-xs">EXPLORE</h3><ul className="mt-3 space-y-1 text-white/70"><li><a href="#about">About</a></li><li><a href="#products">Products</a></li><li><a href="#portfolio">Portfolio</a></li><li><Link to="/careers">Careers</Link></li></ul></div>
       <div><h3 className="text-xs">CONTACT</h3><p className="mt-3 text-white/70">Founder & CEO: Logesh Visvanathan</p><a className="text-tavix-red" href={"mailto:" + COMPANY.email}>{COMPANY.email}</a></div></div></footer>
   </>);

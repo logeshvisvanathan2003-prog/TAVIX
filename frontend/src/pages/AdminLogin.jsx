@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AnimLogo from "../components/AnimLogo.jsx";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth.jsx";
 export default function AdminLogin() {
@@ -8,7 +9,7 @@ export default function AdminLogin() {
   return (
     <main className="min-h-screen bg-black text-white grid place-items-center px-5">
       <form onSubmit={submit} className="w-full max-w-md border border-tavix-red/60 p-8 cut space-y-4 animate-pop">
-        <img src="/logo.png" alt="TAVIX" className="h-14 mx-auto bg-white p-2" />
+        <div className="mx-auto w-44 bg-white p-3"><AnimLogo rings /></div>
         <h1 className="text-sm text-center">COMMAND CENTRE · ADMIN LOGIN</h1>
         <input required type="email" className="input" placeholder="Admin email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
         <input required type="password" className="input" placeholder="Password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} />

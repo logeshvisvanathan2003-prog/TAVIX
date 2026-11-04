@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
+import AnimLogo from "./components/AnimLogo.jsx";
 import { useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
 import Safe from "./components/Safe.jsx";
@@ -18,7 +19,7 @@ function AdminShell() {
   const { user, logout } = useAuth(); const nav = useNavigate();
   return (<>
     {user?.role === "admin" && <header className="fixed top-0 inset-x-0 z-40 h-16 bg-black text-white border-b border-tavix-red/60 flex items-center justify-between px-5">
-      <div className="flex items-center gap-3"><img src="/logo.png" alt="TAVIX" className="h-9 bg-white p-1" /><span className="font-display text-xs hidden sm:inline">COMMAND CENTRE</span></div>
+      <div className="flex items-center gap-3"><span className="block w-20 bg-white p-1"><AnimLogo /></span><span className="font-display text-xs hidden sm:inline">COMMAND CENTRE</span></div>
       <div className="flex items-center gap-4"><span className="text-sm text-white/70">{user.name}</span><button className="btn !py-2" onClick={() => { logout(); nav("/admin/login"); }}>Log out</button></div></header>}
     <Routes><Route path="/admin/login" element={<AdminLogin />} /><Route path="/admin" element={<Admin />} /><Route path="/admin/one-tavix" element={<AdminOneTavix />} /><Route path="*" element={<Navigate to="/admin" />} /></Routes>
   </>);

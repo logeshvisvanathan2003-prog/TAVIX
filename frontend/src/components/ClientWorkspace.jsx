@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth.jsx";
 import { createChatSessionId } from "../chatSessions.js";
-import WingMark from "./WingMark.jsx";
+import AnimLogo from "./AnimLogo.jsx";
 
 export default function ClientWorkspace({ active, title, subtitle, historyChats = [], historyLoading = false, historyError = "", historyActionError = "", deletingChatId = null, selectedChatId = null, onChatSelect, onChatDelete, onMissionSelect, children }) {
   const { user, logout } = useAuth();
@@ -12,7 +12,7 @@ export default function ClientWorkspace({ active, title, subtitle, historyChats 
   const sidebar = (
     <>
       <Link to="/" className="flex items-center gap-3 px-5 pt-5 pb-6 border-b border-white/10" onClick={() => setMobileOpen(false)}>
-        <span className="workspace-logo grid place-items-center w-10 h-10 bg-white rounded-xl"><WingMark className="w-7" /></span>
+        <span className="block w-[84px] shrink-0"><AnimLogo light /></span>
         <span><span className="block font-display text-xs tracking-[.18em]">TAVIX</span><span className="block mt-1 text-[10px] uppercase tracking-[.22em] text-white/45">Client workspace</span></span>
       </Link>
       <div className="p-4">

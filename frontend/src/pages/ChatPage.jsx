@@ -5,6 +5,7 @@ import { useAuth } from "../auth.jsx";
 import { createChatSessionId, currentChatSessionId, setCurrentChatSessionId } from "../chatSessions.js";
 import ChatPanel from "../components/ChatPanel.jsx";
 import ClientWorkspace from "../components/ClientWorkspace.jsx";
+import AnimLogo from "../components/AnimLogo.jsx";
 
 export default function ChatPage() {
   const [q] = useSearchParams();
@@ -81,6 +82,7 @@ export default function ChatPage() {
       <main className="workspace-chat-page">
         <div className="workspace-chat-landing">
           <div className="workspace-chat-intro">
+            <AnimLogo rings className="al-chat" />
             <p className="font-display text-[10px] uppercase tracking-[.2em] text-tavix-red">TAVIX · YOUR AI WORKSPACE</p>
             <h2 className="mt-3 text-3xl sm:text-4xl">{m ? `Mission #${m}` : `Hello${user?.name ? `, ${user.name.split(" ")[0]}` : ""}.`}</h2>
             <p className="mt-3 text-sm text-black/55">{m ? "Ask about the requirements, build progress, or next steps." : "What are we building today?"}</p>

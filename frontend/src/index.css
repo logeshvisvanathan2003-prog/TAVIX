@@ -168,3 +168,55 @@ html.preview-open .site-chrome { display: none !important; }
 .glow-card { background-image: linear-gradient(90deg, transparent, rgba(225,6,0,.5), transparent); background-size: 200% 1px; background-repeat: no-repeat; background-position: -100% 0; transition: background-position .6s; }
 .glow-card:hover { background-position: 200% 0; }
 section[id], footer[id] { scroll-margin-top: 64px; }
+/* ---------- TAVIX AI page: logo animation + HUD rings (same as ONE TAVIX AI) ---------- */
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spin{to{--ang:360deg}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes rotr{to{transform:rotate(-360deg)}}
+@keyframes lgWingL{0%{opacity:0;transform:translate(-160px,-90px) rotate(-14deg) skewX(34deg) scale(.7);filter:blur(10px)}55%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+@keyframes lgWingR{0%{opacity:0;transform:translate(160px,-90px) rotate(14deg) skewX(-34deg) scale(.7);filter:blur(10px)}55%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+@keyframes lgLetter{0%{opacity:0;transform:translateY(-46px) scaleY(1.7);filter:blur(9px)}55%{opacity:1;transform:translateY(5px) scaleY(.94);filter:blur(0) drop-shadow(0 0 14px #E10600)}100%{opacity:1;transform:none;filter:none}}
+@keyframes lgXpulse{0%,100%{filter:drop-shadow(0 0 0 rgba(225,6,0,0))}50%{filter:drop-shadow(0 0 16px rgba(225,6,0,.95))}}
+@keyframes lgFloat{0%,100%{translate:0 0}50%{translate:0 -9px}}
+@keyframes lgGlow{0%,100%{opacity:.5;transform:scale(.92)}50%{opacity:.95;transform:scale(1.06)}}
+.logo3d{position:relative;width:100%;max-width:600px;aspect-ratio:868/444;perspective:1000px}
+.lg-stage{position:absolute;inset:0;transform-style:preserve-3d;animation:lgFloat 6s ease-in-out 2s infinite;
+  transform:rotateY(calc(var(--px,0)*9deg)) rotateX(calc(var(--py,0)*-7deg));transition:transform .15s linear}
+.lg-depth{position:absolute;inset:0;display:block}
+.lg-depth.d3{transform:translate3d(calc(var(--px,0)*18px),calc(var(--py,0)*12px),46px)}
+.lg-depth.d1{transform:translate3d(calc(var(--px,0)*6px),calc(var(--py,0)*4px),10px)}
+.lg-img{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none}
+.lg-wl{animation:lgWingL 1.25s cubic-bezier(.2,.9,.2,1) .1s both}
+.lg-wr{animation:lgWingR 1.25s cubic-bezier(.2,.9,.2,1) .1s both}
+.lg-ltr{animation:lgLetter .8s cubic-bezier(.2,.9,.3,1) calc(.95s + var(--i)*.12s) both}
+.lg-x{animation:lgLetter .8s cubic-bezier(.2,.9,.3,1) 1.55s both,lgXpulse 2.6s ease-in-out 2.6s infinite}
+.lg-shine{position:absolute;inset:0;pointer-events:none;-webkit-mask:url(/logo-full.png) center/100% 100% no-repeat;mask:url(/logo-full.png) center/100% 100% no-repeat;
+  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%);background-size:260% 100%;background-position:180% 0;animation:shineMove 3.6s ease-in-out 2.4s infinite;mix-blend-mode:overlay}
+.lg-glow{position:absolute;left:12%;right:12%;top:-8%;height:70%;background:radial-gradient(ellipse,rgba(225,6,0,.45),transparent 65%);filter:blur(34px);animation:lgGlow 4s ease-in-out infinite;pointer-events:none}
+.hero-art{position:relative;display:grid;place-items:center;aspect-ratio:1;max-width:620px;width:100%;justify-self:center}
+.hero-art .logo3d{position:relative;z-index:2;max-width:92%}
+.hud-rings{position:absolute;inset:0;pointer-events:none}
+.hud-rings svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hud-rings .r1,.hud-rings .r2,.hud-rings .r3{transform-origin:0 0}
+.hud-rings .r1{animation:rot 60s linear infinite}.hud-rings .r2{animation:rotr 28s linear infinite}.hud-rings .r3{animation:rot 16s linear infinite}
+.hud-rings .radar{position:absolute;inset:12%;border-radius:50%;background:conic-gradient(from 0deg,rgba(225,6,0,.28),rgba(225,6,0,0) 28%);animation:radarSweep 5s linear infinite;-webkit-mask:radial-gradient(circle,transparent 30%,#000 31%);mask:radial-gradient(circle,transparent 30%,#000 31%)}
+.termline{margin:26px 0 0;font:400 .72rem var(--display);letter-spacing:.2em;color:rgba(10,10,10,.55);text-transform:uppercase}.termline b{color:var(--red);margin-right:8px}
+.caret{display:inline-block;width:.6em;height:1em;margin-left:6px;background:var(--red);vertical-align:-.15em;animation:blink 1s steps(1) infinite}
+@keyframes shineMove{from{background-position:180% 0}to{background-position:-80% 0}}
+
+/* ---------- TAVIX logo animation everywhere (rings + assemble + float + shine + 3D tilt) ---------- */
+:root{--red:#E10600;--display:"Michroma",sans-serif}
+.al-logo{width:100%}
+.al-logo .logo3d{max-width:none}
+.al-art{position:relative;display:grid;place-items:center;aspect-ratio:1;width:100%}
+.al-art .logo3d{position:relative;z-index:2;max-width:92%}
+.al-art .hud-rings{position:absolute;inset:0}
+.al-chat{width:min(240px,60vw);margin:0 auto 10px}
+.workspace-chat-page:has(.is-conversation) .al-chat{display:none}
+.wm-wrap{display:inline-block;position:relative;aspect-ratio:1;vertical-align:middle}
+.wm-svg{position:absolute;left:0;top:50%;width:100%;height:auto;transform:translateY(-50%)}
+.wm-ring{position:absolute;inset:-12%;border-radius:50%;pointer-events:none}
+.wm-ring.a{border:1px dashed rgba(225,6,0,.75);animation:rot 14s linear infinite}
+.wm-ring.b{inset:-4%;border:1.5px solid transparent;border-top-color:#E10600;border-left-color:rgba(225,6,0,.35);animation:rotr 4s linear infinite}
+@media(prefers-reduced-motion:reduce){.wm-ring,.hud-rings *{animation:none!important}}
+.workspace-sidebar a span span{white-space:nowrap}.workspace-sidebar a>span:last-child{min-width:0}

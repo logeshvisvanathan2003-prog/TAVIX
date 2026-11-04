@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import AnimLogo from "./AnimLogo.jsx";
 import { useEffect, useRef, useState } from "react";
 import { PRODUCTS } from "../data/company.js";
 import { useAuth } from "../auth.jsx";
@@ -13,7 +14,7 @@ export default function Navbar() {
   return (
     <header className={"site-chrome fixed top-0 inset-x-0 z-40 backdrop-blur border-b transition-all " + (scrolled ? "bg-white/95 border-black/10 shadow-sm" : "bg-white/80 border-transparent")}>
       <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
-        <Link to="/"><img src="/logo.png" alt="TAVIX" className="h-10" /></Link>
+        <Link to="/" aria-label="TAVIX home" className="block w-[88px]"><AnimLogo /></Link>
         <nav className="hidden lg:flex items-center gap-8">
           <Link to="/" className={cls}>Home</Link>
           <a href="/#about" className={cls}>About</a>

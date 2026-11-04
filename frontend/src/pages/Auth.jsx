@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AnimLogo from "../components/AnimLogo.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth.jsx";
 import Particles from "../components/Particles.jsx";
@@ -11,7 +12,7 @@ export default function Auth({ mode }) {
   return (
     <main className="relative min-h-screen grid place-items-center px-5 pt-20 overflow-hidden"><Particles />
       <form onSubmit={submit} className="relative w-full max-w-md bg-black text-white p-8 cut space-y-4 animate-pop">
-        <img src="/logo.png" alt="TAVIX" className="h-16 mx-auto bg-white p-2" />
+        <div className="mx-auto w-44 bg-white p-3"><AnimLogo rings /></div>
         <h1 className="text-sm text-center">{reg ? "Create your TAVIX account" : "Log in to TAVIX"}</h1>
         {reg && <input required className="input" placeholder="Full name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />}
         <input required type="email" className="input" placeholder="Email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
