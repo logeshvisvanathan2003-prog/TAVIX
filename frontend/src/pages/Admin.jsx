@@ -4,6 +4,8 @@ import { api } from "../api";
 import { useAuth } from "../auth.jsx";
 import { STEPS, Studio, AiHealth } from "./Dashboard.jsx";
 import { AdminTickets } from "../components/Tickets.jsx";
+import AdminCareers from "../components/AdminCareers.jsx";
+import AdminTeach from "../components/AdminTeach.jsx";
 
 function adminRequestMessage(error) {
   if (error.status === 401) return "Your admin session has expired. Sign in again to save this update.";
@@ -153,7 +155,7 @@ export default function Admin() {
   };
   const addProject = async (e) => { e.preventDefault(); await api("/admin/projects", { method: "POST", body: { ...pf, progress: +pf.progress } }); setPf({ ...pf, title: "", summary: "", tech: "", client: "", result: "" }); await load(); };
   const bookings = (data.bookings || []).filter((b) => (!fs || b.status === fs) && (!fb || b.build_status === fb) && (b.title + b.client_name + b.client_email + b.problem).toLowerCase().includes(q.toLowerCase()));
-  const TABS = [["overview", "Overview"], ["bookings", "Missions"], ["tickets", "Tickets" + (s?.tickets_unread ? ` (${s.tickets_unread})` : "")], ["clients", "Clients"], ["chats", "AI chats"], ["projects", "Projects"]];
+  const TABS = [["overview", "Overview"], ["bookings", "Missions"], ["tickets", "Tickets" + (s?.tickets_unread ? ` (${s.tickets_unread})` : "")], ["clients", "Clients"], ["chats", "AI chats"], ["projects", "Projects"], ["careers", "Careers"], ["teach", "Teach Tavix AI"]];
   return (
     <main className="min-h-screen bg-black text-white pt-24 pb-16"><div className="max-w-6xl mx-auto px-5">
       <div className="flex justify-between gap-3 flex-wrap items-center"><h1 className="text-xl">Command centre</h1><Link to="/admin/one-tavix" className="btn-o">ONE TAVIX AI users →</Link></div><p className="text-white/60 mt-1">Signed in as {user?.name}. Live data, refreshed every 5 seconds. Client builds start automatically; you monitor, support and review.</p>
@@ -175,6 +177,8 @@ export default function Admin() {
           New client ticket #{newTicket.id} · {newTicket.subject} — Open inbox
         </button>}
         {tab === "tickets" && <AdminTickets users={data.users} onChange={ticketChanged} focusTicketId={focusTicketId} />}
+        {tab === "careers" && <AdminCareers />}
+        {tab === "teach" && <AdminTeach />}
         {tab === "clients" && <Clients users={data.users} go={setTab} />}
         {tab === "chats" && data.chats?.map((c) => <p key={c.id} className={"p-3 cut-sm " + (c.role === "user" ? "bg-tavix-red/20" : "bg-white/5")}><span className="text-xs text-white/50">{c.session_id.slice(0, 6)} · {c.role} · {new Date(c.created_at).toLocaleString()}</span><br />{c.content}</p>)}
         {tab === "projects" && <div className="space-y-4">

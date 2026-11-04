@@ -9,8 +9,8 @@ from fastapi.responses import Response
 from jose import jwt
 from pydantic import BaseModel, Field
 from sqlalchemy import func, inspect
-from models import Base, engine, SessionLocal, User, Project, Feedback, Booking, ChatMessage, Ticket, TicketMessage
-import ai, builder
+from models import Base, engine, SessionLocal, User, Project, Feedback, Booking, ChatMessage, Ticket, TicketMessage, KnowledgeEntry, CareerApplication
+import ai, builder, company_kb
 from project_export import project_archive
 from transparency import upsert_project
 from sqlalchemy import text
@@ -638,6 +638,84 @@ def spec_brief(spec_json):
 
 
 # ---------- Tavix AI websocket ----------
+
+# ---------- careers + teach Tavix AI ----------
+class ApplyIn(BaseModel):
+    role: str = Field(min_length=2, max_length=120)
+    name: str = Field(min_length=2, max_length=120)
+    email: str = Field(min_length=5, max_length=200, pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+    link: str = Field(default="", max_length=400)
+    message: str = Field(default="", max_length=3000)
+
+
+@app.post("/api/careers/apply")
+def career_apply(b: ApplyIn, db=Depends(get_db)):
+    since = datetime.utcnow() - timedelta(hours=1)
+    if db.query(CareerApplication).filter(CareerApplication.email == b.email.lower(), CareerApplication.created_at >= since).count() >= 3:
+        raise HTTPException(429, "You already applied a few times in the last hour. Please wait a bit.")
+    db.add(CareerApplication(role=b.role.strip(), name=b.name.strip(), email=b.email.lower(), link=b.link.strip(), message=b.message.strip()))
+    db.commit()
+    return {"ok": True}
+
+
+class StatusIn(BaseModel):
+    status: str = Field(pattern="^(new|shortlisted|rejected|hired)$")
+
+
+@app.get("/api/admin/careers")
+def admin_careers(_=Depends(admin_only), db=Depends(get_db)):
+    return [d(x) for x in db.query(CareerApplication).order_by(CareerApplication.id.desc()).limit(500)]
+
+
+@app.patch("/api/admin/careers/{aid}")
+def admin_career_status(aid: int, b: StatusIn, _=Depends(admin_only), db=Depends(get_db)):
+    x = db.get(CareerApplication, aid)
+    if not x: raise HTTPException(404, "Application not found")
+    x.status = b.status; db.commit(); return d(x)
+
+
+class KnowIn(BaseModel):
+    title: str = Field(min_length=3, max_length=200)
+    body: str = Field(min_length=3, max_length=4000)
+    active: bool = True
+
+
+@app.get("/api/admin/knowledge")
+def know_list(_=Depends(admin_only), db=Depends(get_db)):
+    return {"custom": [d(x) for x in db.query(KnowledgeEntry).order_by(KnowledgeEntry.id.desc())],
+            "built_in": [{"title": h, "body": b} for h, b in company_kb._file_chunks()]}
+
+
+@app.post("/api/admin/knowledge")
+def know_add(b: KnowIn, _=Depends(admin_only), db=Depends(get_db)):
+    x = KnowledgeEntry(title=b.title.strip(), body=b.body.strip(), active=b.active); db.add(x); db.commit(); return d(x)
+
+
+@app.put("/api/admin/knowledge/{kid}")
+def know_edit(kid: int, b: KnowIn, _=Depends(admin_only), db=Depends(get_db)):
+    x = db.get(KnowledgeEntry, kid)
+    if not x: raise HTTPException(404, "Entry not found")
+    x.title, x.body, x.active = b.title.strip(), b.body.strip(), b.active; db.commit(); return d(x)
+
+
+@app.delete("/api/admin/knowledge/{kid}")
+def know_del(kid: int, _=Depends(admin_only), db=Depends(get_db)):
+    x = db.get(KnowledgeEntry, kid)
+    if x: db.delete(x); db.commit()
+    return {"ok": True}
+
+
+@app.get("/api/admin/knowledge/test")
+def know_test(q: str, _=Depends(admin_only), db=Depends(get_db)):
+    """What would Tavix AI answer, and which facts does it find? Lets the admin check what it learned."""
+    return {"answer": company_kb.offline_answer(q, db), "matches": [{"score": round(s, 2), "title": h} for s, h, _b in company_kb.search(q, db, 5)]}
+
+
+@app.get("/api/admin/knowledge/export")
+def know_export(_=Depends(admin_only), db=Depends(get_db)):
+    """Question/answer pairs (JSON) for fine-tuning your own model on the company facts."""
+    return [{"messages": [{"role": "user", "content": h if h.endswith("?") else h + "?"}, {"role": "assistant", "content": b}]} for h, b in company_kb.qa_pairs(db)]
+
 @app.websocket("/ws/chat")
 async def ws_chat(ws: WebSocket, token: str | None = None, session: str | None = None, mission: int | None = None):
     await ws.accept()

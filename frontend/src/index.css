@@ -155,3 +155,16 @@ html.preview-open .site-chrome { display: none !important; }
 }
 .magnetic { transition: transform .2s ease, box-shadow .2s ease; }
 .magnetic:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(225,6,0,.25); }
+
+/* ---------- company site motion ---------- */
+@keyframes ddIn { from { opacity: 0; transform: translateY(-10px) scale(.97); } to { opacity: 1; transform: none; } }
+.dd-panel { animation: ddIn .25s cubic-bezier(.2,.8,.2,1) both; }
+.dd-item { opacity: 0; animation: slideIn .4s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+@keyframes lineGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.tl-line { transform-origin: top; animation: lineGrow 1.2s ease-out both; }
+@keyframes borderRun { to { background-position: 200% 0; } }
+.glow-card { background-image: linear-gradient(90deg, transparent, rgba(225,6,0,.5), transparent); background-size: 200% 1px; background-repeat: no-repeat; background-position: -100% 0; transition: background-position .6s; }
+.glow-card:hover { background-position: 200% 0; }
+section[id], footer[id] { scroll-margin-top: 64px; }

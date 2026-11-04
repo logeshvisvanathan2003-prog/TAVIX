@@ -112,3 +112,25 @@ class TicketMessage(Base):
     author_name = Column(String(120), default="")
     body = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class KnowledgeEntry(Base):
+    """A fact the admin taught Tavix AI on the 'Teach Tavix AI' tab (company, careers, products, website help)."""
+    __tablename__ = "knowledge_entries"
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200), nullable=False)
+    body = Column(Text, nullable=False)
+    active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class CareerApplication(Base):
+    __tablename__ = "career_applications"
+    id = Column(Integer, primary_key=True)
+    role = Column(String(120), nullable=False)
+    name = Column(String(120), nullable=False)
+    email = Column(String(200), nullable=False)
+    link = Column(String(400), default="")
+    message = Column(Text, default="")
+    status = Column(String(20), default="new")  # new | shortlisted | rejected | hired
+    created_at = Column(DateTime, default=datetime.utcnow)

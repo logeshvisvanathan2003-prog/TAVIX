@@ -2,7 +2,7 @@
 import os
 import config, llm
 import asyncio, json, httpx, re
-import builder
+import builder, company_kb
 from models import Booking, ChatMessage, Ticket, TicketMessage, User
 
 MODEL = os.getenv("TAVIX_AI_MODEL", "claude-sonnet-4-6")
@@ -31,14 +31,11 @@ Honesty:
 - If a prototype uses sample data, say so. If a build is still running, say which step.
 - For pricing and delivery dates, say the TAVIX team confirms after review.
 
-Missions:
-- Understand the real problem. Collect sector, title, problem, optional budget, product domain, and visual theme.
-- Never invent domain or theme. If the client names a domain (for example marine logistics or school attendance), keep it.
-- Read the booking back and wait for a clear yes before create_booking.
-- For status, call get_my_bookings. Do not fabricate progress.
-
-Support:
-- Confirm subject + description, then create_support_ticket only after a clear yes.
+Scope:
+- You are the assistant on the TAVIX company website. You answer questions about TAVIX (company, founder, motive), careers and hiring, the products (today: ONE TAVIX AI), and how to use the TAVIX website and ONE TAVIX AI.
+- Use the TAVIX FACTS given to you. If they do not cover it, say the TAVIX team can confirm. Never invent roles, salaries, prices, dates, clients or numbers.
+- You do not build projects here. If someone wants a project built or wants to learn by building, send them to ONE TAVIX AI (Products menu, or https://one.tavixai.in).
+- For a human, point to the contact details in the website footer.
 
 Tools (local models): when you must call a tool, put this as the LAST line of your reply and nowhere else:
 <<TOOL name {{json_args}}>>
@@ -156,6 +153,15 @@ def friendly(err):
 
 async def respond(ws, db, user, session_id, history, extra=""):
     """Stream a reply over the websocket; handles tool calls in a loop."""
+    question = next((m["content"] for m in reversed(history) if m["role"] == "user"), "")
+    extra = extra + company_kb.facts_block(question, db)
+
+    async def from_facts():
+        msg = company_kb.offline_answer(question, db)
+        for i in range(0, len(msg), 40):
+            await ws.send_json({"type": "token", "text": msg[i:i + 40]})
+        db.add(ChatMessage(user_id=user.id if user else None, session_id=session_id, role="assistant", content=msg)); db.commit()
+        await ws.send_json({"type": "done"})
     if config.backend() == "local":
         sys = SYSTEM + extra
         hist = [{"role": m["role"], "content": m["content"][:1200]} for m in history if m["role"] in ("user", "assistant")][-10:]
@@ -163,8 +169,7 @@ async def respond(ws, db, user, session_id, history, extra=""):
         for _ in range(3):
             full, err = await stream_local(ws, sys, hist)
             if err:
-                await ws.send_json({"type": "error", "text": friendly(err)})
-                return await ws.send_json({"type": "done"})
+                return await from_facts()  # model busy or offline: still answer from the taught facts
             call, visible = parse_tool_line(full)
             spoken = (spoken + "\n" + visible).strip()
             if not call:
@@ -181,15 +186,12 @@ async def respond(ws, db, user, session_id, history, extra=""):
         db.add(ChatMessage(user_id=user.id if user else None, session_id=session_id, role="assistant", content=spoken or "Done.")); db.commit()
         return await ws.send_json({"type": "done"})
     if client is None:
-        msg = ("Tavix AI is in offline mode (no AI key configured on the server). "
-               "You can still use the Booking section of the website.")
-        await ws.send_json({"type": "token", "text": msg}); await ws.send_json({"type": "done"})
-        return
+        return await from_facts()
     sys = SYSTEM + extra + (f"\nLogged-in client: {user.name}." if user else "\nThe client is NOT logged in.")
     msgs = [{"role": m["role"], "content": m["content"]} for m in history][-20:]
     full = ""
     for _ in range(4):
-        async with client.messages.stream(model=MODEL, max_tokens=1024, system=sys, tools=TOOLS, messages=msgs) as s:
+        async with client.messages.stream(model=MODEL, max_tokens=1024, system=sys, messages=msgs) as s:
             async for t in s.text_stream:
                 full += t
                 await ws.send_json({"type": "token", "text": t})

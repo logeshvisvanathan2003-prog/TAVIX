@@ -1,12 +1,12 @@
 import { Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./components/Navbar.jsx";
-import XPBar from "./components/XPBar.jsx";
 import Safe from "./components/Safe.jsx";
 import ChatWidget from "./components/ChatWidget.jsx";
 import Home from "./pages/Home.jsx";
 import Auth from "./pages/Auth.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
+import Careers from "./pages/Careers.jsx";
 import GameHUD from "./components/GameHUD.jsx";
 import Admin from "./pages/Admin.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
@@ -26,7 +26,7 @@ function AdminShell() {
 
 function DashboardRedirect() {
   const location = useLocation();
-  return <Navigate to={{ pathname: "/", search: location.search, hash: "#client-missions" }} replace />;
+  return <Navigate to={{ pathname: "/", search: location.search, hash: "" }} replace />;
 }
 
 export default function App() {
@@ -34,13 +34,14 @@ export default function App() {
   useEffect(() => { if (hash) setTimeout(() => document.querySelector(hash)?.scrollIntoView(), 50); else scrollTo(0, 0); }, [pathname, hash]);
   if (pathname.startsWith("/admin")) return <AdminShell />;
   return (<>
-    {pathname !== "/chat" && <Navbar />}{pathname === "/" && <XPBar />}
+    {pathname !== "/chat" && <Navbar />}
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Auth mode="login" />} />
       <Route path="/register" element={<Auth mode="register" />} />
       <Route path="/dashboard" element={<DashboardRedirect />} />
       <Route path="/chat" element={<ChatPage />} />
+      <Route path="/careers" element={<Careers />} />
     </Routes>
     {pathname !== "/chat" && <Safe><ChatWidget /></Safe>}
     <GameHUD />

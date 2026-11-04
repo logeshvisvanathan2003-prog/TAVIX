@@ -13,7 +13,7 @@ const plain = (t) => t.replace(/[*`#_]/g, "").replace(/^\s*[-•]\s+/gm, "");
 const SUPPORT_INTENT = /\b(complaint|complain|raise (?:a )?ticket|support ticket|report (?:an? )?(?:issue|bug|problem)|file (?:a )?complaint|open (?:a )?ticket)\b/i;
 
 function Thinking({ status, mission }) {
-  const phrases = mission ? ["Reading your mission…", "Checking the requirements…", "Thinking it through…", "Writing the answer…"] : ["Understanding your problem…", "Thinking it through…", "Writing the answer…"];
+  const phrases = mission ? ["Reading your mission…", "Checking the requirements…", "Thinking it through…", "Writing the answer…"] : ["Reading your question…", "Checking what TAVIX knows…", "Writing the answer…"];
   const [i, setI] = useState(0);
   useEffect(() => { const t = setInterval(() => setI((x) => (x + 1) % phrases.length), 1800); return () => clearInterval(t); }, []);
   return <div className="fade-up flex gap-3 items-start">
@@ -37,7 +37,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   useEffect(() => { const b = box.current; if (b) b.scrollTop = b.scrollHeight; }, [msgs.length, busy, err]);
 
   const hello = mission ? `I'm Tavix AI — TAVIX's own reasoning partner, not a generic chat wrapper. Mission #${mission} is open. Ask about the requirements, the themed prototype, the 3D map, or the ZIP you can open in VS Code.`
-    : "I'm Tavix AI. I think in missions: your problem, the domain, the visual direction, then a build you can watch. Tell me the problem in any language.";
+    : "I'm TAVIX AI. Ask me about TAVIX, our founder, careers and how we hire, our products like ONE TAVIX AI, or how to use these websites.";
 
   useEffect(() => {
     let closed = false, retry;
@@ -131,7 +131,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   useEffect(() => { if (!pending) return; const t = setTimeout(() => send(pending), 1800); return () => clearTimeout(t); }, [pending]);
 
   const chips = useMemo(() => mission ? ["Summarise what you built", "List the key features", "What are the risks?", "How do I request a change?"]
-    : ["I have a problem to solve", "What services do you offer?", "How does a mission work?", "Track my booking"], [mission]);
+    : ["What is TAVIX AI and ONE TAVIX AI?", "How does TAVIX hire?", "What roles are open?", "Who founded TAVIX?"], [mission]);
   const only = msgs.length <= 1 && !busy;
   const wrap = { panel: "fixed z-50 bottom-24 right-3 left-3 sm:left-auto sm:right-5 sm:w-[420px] h-[72vh] max-h-[660px]", overlay: "fixed z-50 inset-3 sm:inset-8 sm:max-w-4xl sm:mx-auto", page: "relative h-full w-full max-w-3xl mx-auto" }[variant];
   const big = variant !== "panel";
@@ -170,7 +170,6 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
           <button className="btn !py-2 !px-4 mt-2" onClick={() => send(lastUser.current, true)} disabled={busy}>Try again</button></div>}
         {only && <div className="flex flex-wrap gap-2 fade-up">{chips.map((c) => <button key={c} onClick={() => send(c)} className="px-3 py-1.5 text-sm border border-white/25 hover:bg-tavix-red hover:border-tavix-red transition cut-sm">{c}</button>)}</div>}
         {!online && <p className="text-sm text-tavix-red">Cannot reach the Tavix backend on port 8000. Check that the backend window is running.</p>}
-        {!user && <p className="text-sm text-white/60">Log in to place bookings through chat.</p>}
       </div>
 
       <div className="p-3 border-t border-white/15 space-y-2">
