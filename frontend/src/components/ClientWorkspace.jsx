@@ -13,7 +13,7 @@ export default function ClientWorkspace({ active, title, subtitle, historyChats 
     <>
       <Link to="/" className="flex items-center gap-3 px-5 pt-5 pb-6 border-b border-white/10" onClick={() => setMobileOpen(false)}>
         <span className="block w-[84px] shrink-0"><AnimLogo light /></span>
-        <span><span className="block font-display text-xs tracking-[.18em]">TAVIX</span><span className="block mt-1 text-[10px] uppercase tracking-[.22em] text-white/45">Client workspace</span></span>
+        <span><span className="block font-display text-xs tracking-[.18em]">TAVIZ</span><span className="block mt-1 text-[10px] uppercase tracking-[.22em] text-white/45">Client workspace</span></span>
       </Link>
       <div className="p-4">
         <button type="button" className="workspace-new-mission flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-semibold text-sm" onClick={() => { navigate(`/chat?session=${createChatSessionId()}`); setMobileOpen(false); }}>
@@ -40,7 +40,7 @@ export default function ClientWorkspace({ active, title, subtitle, historyChats 
       <div className="mt-auto p-4">
         <div className="workspace-account flex items-center gap-3 p-3 rounded-xl">
           <span className="grid place-items-center w-9 h-9 rounded-full bg-tavix-red text-white font-display text-xs">{(user?.name || "T").trim().charAt(0).toUpperCase()}</span>
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{user?.name || "TAVIX client"}</span><span className="block truncate text-[11px] text-white/40">Your project space</span></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-semibold">{user?.name || "TAVIZ client"}</span><span className="block truncate text-[11px] text-white/40">Your project space</span></span>
           <button type="button" aria-label="Log out" title="Log out" className="workspace-logout px-2 py-1 text-xs" onClick={() => { logout(); navigate("/"); }}>↗</button>
         </div>
       </div>
@@ -54,9 +54,9 @@ export default function ClientWorkspace({ active, title, subtitle, historyChats 
     <div className="workspace-main min-h-screen min-w-0 lg:ml-[272px]">
       <header className={"workspace-topbar sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-7 h-[68px] " + (active === "assistant" ? "workspace-topbar-assistant" : "")}>
         <button type="button" className="workspace-menu-button lg:hidden grid place-items-center w-9 h-9 rounded-lg" aria-label="Open navigation" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}>☰</button>
-        <div className="min-w-0 flex-1"><p className="font-display text-[10px] uppercase tracking-[.18em] text-tavix-red">{active === "assistant" ? "TAVIX · INTELLIGENCE" : "TAVIX · MISSION CONTROL"}</p><h1 className="truncate text-base sm:text-lg">{title}</h1></div>
+        <div className="min-w-0 flex-1"><p className="font-display text-[10px] uppercase tracking-[.18em] text-tavix-red">{active === "assistant" ? "TAVIZ · INTELLIGENCE" : "TAVIZ · MISSION CONTROL"}</p><h1 className="truncate text-base sm:text-lg">{title}</h1></div>
         {subtitle && <span className="hidden md:block max-w-[42%] truncate text-xs text-black/45">{subtitle}</span>}
-        <Link to="/chat" className="workspace-ai-shortcut shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold"><span className="workspace-ai-dot" /> TAVIX AI</Link>
+        <Link to="/chat" className="workspace-ai-shortcut shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold"><span className="workspace-ai-dot" /> TAVIZ AI</Link>
       </header>
       <div className="workspace-content">{children}</div>
     </div>

@@ -19,10 +19,10 @@ from fastapi import BackgroundTasks
 SECRET = os.getenv("SECRET_KEY", "change-me-in-production")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "logesh@tavix.in")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "ChangeMe@123")
-print("[TAVIX]", config.describe(), "| .env:", config.LOADED or "NOT FOUND")
+print("[TAVIZ]", config.describe(), "| .env:", config.LOADED or "NOT FOUND")
 STATUSES = ["placed", "reviewing", "in_progress", "delivered"]
 
-app = FastAPI(title="TAVIX API")
+app = FastAPI(title="TAVIZ API")
 app.add_middleware(CORSMiddleware, allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:5174").split(","),
                    allow_methods=["*"], allow_headers=["*"])
 
@@ -183,23 +183,23 @@ ONE_KEY = os.getenv("ONE_TAVIX_KEY", "").strip()
 
 @app.get("/api/admin/onetavix/{part}")
 async def onetavix(part: str, q: str = "", _=Depends(admin_only)):
-    """Server-to-server read of ONE TAVIX AI (users, sign-ins, activity). The key never reaches the browser."""
+    """Server-to-server read of ONE TAVIZ AI (users, sign-ins, activity). The key never reaches the browser."""
     import httpx
     if part not in ("summary", "users", "activity"):
         raise HTTPException(404, "Unknown section")
     if not ONE_KEY:
-        raise HTTPException(503, "ONE_TAVIX_KEY is not set in the website .env, so ONE TAVIX AI cannot be read yet.")
+        raise HTTPException(503, "ONE_TAVIX_KEY is not set in the website .env, so ONE TAVIZ AI cannot be read yet.")
     try:
         async with httpx.AsyncClient(timeout=10) as c:
             r = await c.get(f"{ONE_URL}/api/partner/{part}", params={"q": q} if part == "users" and q else None, headers={"X-Partner-Key": ONE_KEY})
     except Exception:
-        raise HTTPException(502, "Cannot reach ONE TAVIX AI right now.")
+        raise HTTPException(502, "Cannot reach ONE TAVIZ AI right now.")
     if r.status_code == 401:
-        raise HTTPException(502, "ONE TAVIX AI rejected the key. ONE_TAVIX_KEY must equal PARTNER_API_KEY on that server.")
+        raise HTTPException(502, "ONE TAVIZ AI rejected the key. ONE_TAVIX_KEY must equal PARTNER_API_KEY on that server.")
     if r.status_code == 503:
-        raise HTTPException(502, "PARTNER_API_KEY is empty on the ONE TAVIX AI server, so the feature is switched off there.")
+        raise HTTPException(502, "PARTNER_API_KEY is empty on the ONE TAVIZ AI server, so the feature is switched off there.")
     if r.status_code != 200:
-        raise HTTPException(502, f"ONE TAVIX AI answered {r.status_code}. Deploy its v21 update first.")
+        raise HTTPException(502, f"ONE TAVIZ AI answered {r.status_code}. Deploy its v21 update first.")
     return r.json()
 
 
@@ -273,7 +273,7 @@ class BookingIn(BaseModel):
 @app.post("/api/bookings")
 def book(b: BookingIn, bg: BackgroundTasks, u=Depends(current_user), db=Depends(get_db)):
     x = Booking(user_id=u.id, **b.model_dump()); db.add(x); db.commit(); db.refresh(x)
-    bg.add_task(builder.build, x.id)  # Tavix AI starts building right away
+    bg.add_task(builder.build, x.id)  # Taviz AI starts building right away
     return d(x)
 
 
@@ -308,7 +308,7 @@ class ReviseIn(BaseModel):
 @app.post("/api/bookings/{bid}/revise")
 def revise(bid: int, b: ReviseIn, bg: BackgroundTasks, u=Depends(current_user), db=Depends(get_db)):
     x = own_booking(bid, u, db)
-    if x.build_status == "building": raise HTTPException(400, "Tavix AI is still building. Wait for it to finish.")
+    if x.build_status == "building": raise HTTPException(400, "Taviz AI is still building. Wait for it to finish.")
     x.build_status = "building"; x.build_log = "[]"; db.commit()
     bg.add_task(builder.build, x.id, b.instruction)
     return {"ok": True}
@@ -317,7 +317,7 @@ def revise(bid: int, b: ReviseIn, bg: BackgroundTasks, u=Depends(current_user), 
 @app.post("/api/bookings/{bid}/retry")
 def retry(bid: int, bg: BackgroundTasks, u=Depends(current_user), db=Depends(get_db)):
     x = own_booking(bid, u, db)
-    if x.build_status == "building": raise HTTPException(400, "Tavix AI is already building this mission")
+    if x.build_status == "building": raise HTTPException(400, "Taviz AI is already building this mission")
     x.build_status = "building"; x.build_log = "[]"; db.commit(); bg.add_task(builder.build, x.id)
     return {"ok": True}
 
@@ -637,9 +637,9 @@ def spec_brief(spec_json):
             f"Modules: {', '.join(str(m.get('name', '')) for m in sp.get('modules', [])[:8])}\nRisks: {'; '.join(map(str, sp.get('risks', [])[:4]))[:300]}")
 
 
-# ---------- Tavix AI websocket ----------
+# ---------- Taviz AI websocket ----------
 
-# ---------- careers + teach Tavix AI ----------
+# ---------- careers + teach Taviz AI ----------
 class ApplyIn(BaseModel):
     role: str = Field(min_length=2, max_length=120)
     name: str = Field(min_length=2, max_length=120)
@@ -707,7 +707,7 @@ def know_del(kid: int, _=Depends(admin_only), db=Depends(get_db)):
 
 @app.get("/api/admin/knowledge/test")
 def know_test(q: str, _=Depends(admin_only), db=Depends(get_db)):
-    """What would Tavix AI answer, and which facts does it find? Lets the admin check what it learned."""
+    """What would Taviz AI answer, and which facts does it find? Lets the admin check what it learned."""
     return {"answer": company_kb.offline_answer(q, db), "matches": [{"score": round(s, 2), "title": h} for s, h, _b in company_kb.search(q, db, 5)]}
 
 
@@ -727,7 +727,7 @@ async def ws_chat(ws: WebSocket, token: str | None = None, session: str | None =
     if mb and (mb.user_id == user.id):
         extra = (f"\nThis chat is about the client's mission #{mb.id} '{mb.title}' ({mb.sector}). Client request: {mb.problem[:700]}\n"
                  f"Build status: {mb.build_status} ({mb.build_phase or 'idle'}). Mission status: {mb.status}.\n{spec_brief(mb.spec)}\n"
-                 "Answer from this mission's real details only. Explain what Tavix AI built, answer questions about it, and help the client decide changes "
+                 "Answer from this mission's real details only. Explain what Taviz AI built, answer questions about it, and help the client decide changes "
                  "(they send changes in the 'Request changes' tab). If the build is not ready, say what step it is on.")
     rows = (db.query(ChatMessage)
             .filter_by(session_id=sid, user_id=user.id if user else None)
@@ -746,7 +746,7 @@ async def ws_chat(ws: WebSocket, token: str | None = None, session: str | None =
             except WebSocketDisconnect:
                 raise
             except Exception as e:
-                await ws.send_json({"type": "token", "text": "Sorry, Tavix AI hit a problem. Please try again."})
+                await ws.send_json({"type": "token", "text": "Sorry, Taviz AI hit a problem. Please try again."})
                 await ws.send_json({"type": "done"}); print("AI error:", e)
             last = db.query(ChatMessage).filter_by(session_id=sid).order_by(ChatMessage.id.desc()).first()
             if last and last.role == "assistant": history.append({"role": "assistant", "content": last.content})

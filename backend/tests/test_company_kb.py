@@ -3,10 +3,10 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 import company_kb as k
 
 CASES = {
-    "who is the founder": "Who founded TAVIX",
-    "how do you hire": "How does TAVIX hire",
-    "what is one tavix ai": "What is ONE TAVIX AI",
-    "what is tavix ai": "What is TAVIX AI",
+    "who is the founder": "Who founded TAVIZ",
+    "how do you hire": "How does TAVIZ hire",
+    "what is one tavix ai": "What is ONE TAVIZ AI",
+    "what is tavix ai": "What is TAVIZ AI",
     "what salary do you pay": "salary",
     "how do i apply for a job": "How do I apply",
     "where did book go": "Missions, My missions and Book",

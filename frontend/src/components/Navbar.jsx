@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <header className={"site-chrome fixed top-0 inset-x-0 z-40 backdrop-blur border-b transition-all " + (scrolled ? "bg-white/95 border-black/10 shadow-sm" : "bg-white/80 border-transparent")}>
       <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
-        <Link to="/" aria-label="TAVIX home" className="block w-[88px]"><AnimLogo /></Link>
+        <Link to="/" aria-label="TAVIZ home" className="block w-[88px]"><AnimLogo /></Link>
         <nav className="hidden lg:flex items-center gap-8">
           <Link to="/" className={cls}>Home</Link>
           <a href="/#about" className={cls}>About</a>
@@ -31,15 +31,15 @@ export default function Navbar() {
           <Link to="/careers" className={cls}>Careers</Link>
           <a href="/#contact" className={cls}>Contact</a>
         </nav>
-        <div className="hidden lg:flex items-center gap-3"><button onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))} className="btn-o">Ask TAVIX AI</button>
-          {user ? <>{user.role === "admin" ? <Link to="/admin" className="btn">Admin</Link> : <Link to="/chat" className="btn">TAVIX AI page</Link>}<button onClick={() => { logout(); nav("/"); }} className="font-semibold hover:text-tavix-red">Log out</button></>
+        <div className="hidden lg:flex items-center gap-3">
+          {user ? <>{user.role === "admin" ? <Link to="/admin" className="btn">Admin</Link> : <Link to="/chat" className="btn">TAVIZ AI page</Link>}<button onClick={() => { logout(); nav("/"); }} className="font-semibold hover:text-tavix-red">Log out</button></>
             : <><Link to="/login" className="font-semibold hover:text-tavix-red">Log in</Link><Link to="/register" className="btn">Register</Link></>}</div>
         <button className="lg:hidden font-display text-xs" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? "CLOSE" : "MENU"}</button>
       </div>
       {open && <div className="lg:hidden bg-white border-t border-black/10 px-5 py-4 flex flex-col gap-4 font-semibold dd-panel">
         <Link to="/">Home</Link><a href="/#about">About</a>
         <div><p className="text-sm text-black/50">Products</p>{PRODUCTS.map((p) => <a key={p.id} href={p.url} className="block mt-1 text-tavix-red">{p.name} · {p.status} →</a>)}</div>
-        <a href="/#portfolio">Portfolio</a><Link to="/careers">Careers</Link><a href="/#contact">Contact</a><Link to="/chat">TAVIX AI page</Link>
+        <a href="/#portfolio">Portfolio</a><Link to="/careers">Careers</Link><a href="/#contact">Contact</a><Link to="/chat">TAVIZ AI page</Link>
         {user ? <>{user.role === "admin" && <Link to="/admin">Admin</Link>}<button className="text-left" onClick={() => { logout(); nav("/"); }}>Log out</button></> : <><Link to="/login">Log in</Link><Link to="/register">Register</Link></>}
       </div>}
     </header>

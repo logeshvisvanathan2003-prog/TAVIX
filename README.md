@@ -1,6 +1,6 @@
-# TAVIX: Innovation with Honour
+# TAVIZ: Innovation with Honour
 
-React + Tailwind frontend, FastAPI (Python) backend, PostgreSQL database, Tavix AI (free Hugging Face open model, local MLX model, or Claude API; streaming over WebSocket).
+React + Tailwind frontend, FastAPI (Python) backend, PostgreSQL database, Taviz AI (free Hugging Face open model, local MLX model, or Claude API; streaming over WebSocket).
 
 ## Run it
 
@@ -13,14 +13,14 @@ No Docker? Install PostgreSQL, create DB/user `tavix`, then in `backend/`:
 
 ## Admin (Logesh Visvanathan)
 Log in at `/admin/login` with `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `.env` (default email `logesh@tavix.in`). If admin requests show `403 Admin only`, sign out and authenticate again; if the configured admin password is no longer accepted, reset the configured admin account with `backend/reset_admin.py` and a new strong password. The admin panel shows clients,
-bookings (form and Tavix AI), full chat logs, and lets you set each booking's status and the solution the client sees.
+bookings (form and Taviz AI), full chat logs, and lets you set each booking's status and the solution the client sees.
 You can also publish projects there.
 
 ## Sample data
 The first start adds 4 sample projects flagged "Sample". Use Admin > projects > "Remove sample data" before going live.
 Client feedback is never pre-filled: only registered clients can post, so the feed stays real.
 
-## Missions: Tavix AI builds for the client
+## Missions: Taviz AI builds for the client
 When a client books (form or chat), `backend/builder.py` runs: requirements spec, an interactive website prototype, and a 3D architecture
 map. The client can add a product domain and visual direction so the site is styled for their request, then watch it live in My missions >
 Build Studio (Website / 3D view / Requirements / Request changes). Ready builds can be downloaded as a Vite project ZIP with setup instructions.
@@ -46,7 +46,7 @@ See `ml/README_TRAINING.md`.
 ## Upgrading from v1
 Existing databases are migrated automatically on start (new columns added with `ADD COLUMN IF NOT EXISTS`).
 
-## Tavix AI
+## Taviz AI
 `backend/ai.py` holds the system prompt and tools (`create_booking`, `get_my_bookings`, `create_support_ticket`). It replies in the client's language,
 streams word by word, remembers the session, and can place bookings or confirmed support tickets for logged-in clients.
 Clients can also submit a support ticket directly inside chat, including when using the local model. New unread complaints appear

@@ -36,7 +36,7 @@ export default function Playbook() {
       <div className="pointer-events-none absolute inset-0 opacity-40 playbook-grid" />
       <div className="relative max-w-7xl mx-auto px-5">
         <div className="max-w-3xl rise">
-          <p className="font-display text-xs tracking-[.35em] text-tavix-red">TAVIX · GAMIFIED</p>
+          <p className="font-display text-xs tracking-[.35em] text-tavix-red">TAVIZ · GAMIFIED</p>
           <h2 className="text-2xl sm:text-4xl mt-3">Make every mission move your rank</h2>
           <p className="mt-4 text-white/70">
             XP tracks meaningful progress and unlocks optional visual upgrades for your client workspace. It is never money,

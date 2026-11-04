@@ -28,7 +28,7 @@ function Thread({ id, admin, onChange }) {
     <div className="flex-1 overflow-y-auto thin-scroll p-4 space-y-3 max-h-[420px]">
       {t.messages.map((m) => { const mine = admin ? m.author_role === "admin" : m.author_role === "client";
         return <div key={m.id} className={"fade-up flex " + (mine ? "justify-end" : "")}><div className={"max-w-[85%] px-4 py-2.5 cut-sm " + (mine ? "bg-tavix-red" : "bg-white/10")}>
-          <p className="text-xs text-white/70 mb-0.5">{m.author_role === "admin" ? "TAVIX team" : m.author_name} · {when(m.created_at)}</p><p className="whitespace-pre-wrap">{m.body}</p></div></div>; })}
+          <p className="text-xs text-white/70 mb-0.5">{m.author_role === "admin" ? "TAVIZ team" : m.author_name} · {when(m.created_at)}</p><p className="whitespace-pre-wrap">{m.body}</p></div></div>; })}
       <div ref={end} />
     </div>
     {t.status === "closed" ? <p className="p-4 text-white/60 border-t border-white/15">This ticket is closed.</p>
@@ -62,7 +62,7 @@ function Shell({ list, sel, setSel, creating, setCreating, admin, filter, childr
     <div className="border-b md:border-b-0 md:border-r border-white/15 flex flex-col">
       <div className="p-3 space-y-2 border-b border-white/15">{header}<button className="btn !py-2 w-full" onClick={() => { setCreating(true); setSel(null); }}>+ {admin ? "Raise for a client" : "Raise a ticket"}</button></div>
       <div className="flex-1 overflow-y-auto thin-scroll max-h-[460px]">
-        {list.length === 0 && <p className="p-4 text-white/60">{admin ? "No tickets match." : "No tickets yet. If something goes wrong, raise one and the TAVIX team will reply here."}</p>}
+        {list.length === 0 && <p className="p-4 text-white/60">{admin ? "No tickets match." : "No tickets yet. If something goes wrong, raise one and the TAVIZ team will reply here."}</p>}
         {list.map((t) => { const unread = admin ? t.admin_unread : t.client_unread;
           return <button key={t.id} onClick={() => { setSel(t.id); setCreating(false); }} className={"w-full text-left p-3 border-b border-white/10 hover:bg-white/5 transition " + (sel === t.id ? "bg-tavix-red/20" : "")}>
             <div className="flex items-center gap-2"><span className="flex-1 truncate font-semibold">{unread && <span className="inline-block w-2 h-2 bg-tavix-red mr-2 animate-pulse" />}#{t.id} {t.subject}</span><Pill s={t.status} /></div>

@@ -143,7 +143,7 @@ def theme_prompt(pack):
         f"CSS colors: accent {pack['accent']}, secondary {pack['accent2']}, background {pack['bg']}, "
         f"text {pack['ink']}, surface {pack['surface']}. "
         f"Headings font '{pack['font']}', UI font '{pack['ui']}' from Google Fonts. "
-        "Do not use TAVIX red (#E10600) or a generic black-red motorsport look unless allow_tavix_brand is true. "
+        "Do not use TAVIZ red (#E10600) or a generic black-red motorsport look unless allow_tavix_brand is true. "
         f"allow_tavix_brand={pack['allow_tavix_brand']}. Every page of this prototype must look unique to this domain."
     )
 

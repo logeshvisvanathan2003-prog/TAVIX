@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 
-// Your exact TAVIX logo, split into layers (two wings + T A V I X) so it can assemble itself,
+// Your exact TAVIZ logo, split into layers (two wings + T A V I X) so it can assemble itself,
 // float, shine and react to the mouse in 3D. `light` = white lettering for dark backgrounds.
-const LETTERS = ["t", "a", "v", "i", "x"];
+const LETTERS = ["t", "a", "v", "i", "z"];
 
 export default function LogoAnim({ light = false, className = "", glow = true }) {
   const root = useRef(null);
@@ -16,13 +16,13 @@ export default function LogoAnim({ light = false, className = "", glow = true })
   }, []);
   const suf = light ? "-l" : "";
   return (
-    <div ref={root} className={"logo3d " + className} role="img" aria-label="TAVIX logo">
+    <div ref={root} className={"logo3d " + className} role="img" aria-label="TAVIZ logo">
       {glow && <span className="lg-glow" aria-hidden="true" />}
       <div className="lg-stage">
         <span className="lg-depth d3"><img className="lg-img lg-wl" src="/logo-wl.png" alt="" draggable="false" /></span>
         <span className="lg-depth d3"><img className="lg-img lg-wr" src="/logo-wr.png" alt="" draggable="false" /></span>
         {LETTERS.map((k, i) => (
-          <span key={k} className="lg-depth d1"><img className={"lg-img lg-ltr" + (k === "x" ? " lg-x" : "")} style={{ "--i": i }} src={`/logo-${k}${suf}.png`} alt="" draggable="false" /></span>
+          <span key={k} className="lg-depth d1"><img className={"lg-img lg-ltr" + (k === "z" ? " lg-x" : "")} style={{ "--i": i }} src={`/logo-${k}${suf}.png`} alt="" draggable="false" /></span>
         ))}
         <span className="lg-shine" aria-hidden="true" />
       </div>

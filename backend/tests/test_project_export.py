@@ -94,12 +94,12 @@ class NavigationRepairTests(unittest.TestCase):
 
     def test_company_and_local_routes_stay_inside_the_prototype(self):
         source = """<html><body><header><nav>
-          <a href="/">TAVIX AI</a><a href="/projects">Projects</a>
+          <a href="/">TAVIZ AI</a><a href="/projects">Projects</a>
           <a href="https://tavixai.in/#contact">Contact</a>
           <a href="https://example.com">External</a>
         </nav></header><main><section id="contact">Contact</section></main></body></html>"""
         result = repair_navigation(source, {})
-        self.assertIn('<a href="#">TAVIX AI</a>', result)
+        self.assertIn('<a href="#">TAVIZ AI</a>', result)
         self.assertIn('<a href="#projects">Projects</a>', result)
         self.assertIn('<a href="#contact">Contact</a>', result)
         self.assertIn('<a href="https://example.com">External</a>', result)
@@ -135,7 +135,7 @@ class ChatSupportTicketTests(unittest.TestCase):
         })
 
         self.assertEqual((booking_id, ticket_id), (None, 42))
-        self.assertIn("submitted to the TAVIX team", response)
+        self.assertIn("submitted to the TAVIZ team", response)
         ticket = next(row for row in db.rows if row.__class__.__name__ == "Ticket")
         message = next(row for row in db.rows if row.__class__.__name__ == "TicketMessage")
         self.assertEqual(ticket.user_id, user.id)

@@ -40,13 +40,13 @@ export default function LiveBuild({ b, title }) {
     <div className="mt-4 bg-black text-white cut p-5 grid-bg" aria-live="polite">
       <div className="flex items-center gap-4 flex-wrap">
         <div className="orb shrink-0" />
-        <div className="flex-1 min-w-[200px]"><p className="font-display text-xs text-tavix-red">TAVIX AI IS BUILDING</p>
+        <div className="flex-1 min-w-[200px]"><p className="font-display text-xs text-tavix-red">TAVIZ AI IS BUILDING</p>
           <p className="text-lg leading-tight">“{title}”</p>
           <p key={b.build_phase} className="fade-up text-sm text-white/70">{b.build_status === "queued" ? "Waiting in the build queue…" : (b.build_phase || "Starting…")}</p></div>
         <div className="text-right"><p className="font-display text-2xl">{pct}%</p><p className="text-sm text-white/60">{String(Math.floor(el / 60)).padStart(2, "0")}:{String(el % 60).padStart(2, "0")} elapsed</p></div>
       </div>
       <div className="mt-3 h-1.5 bg-white/15 overflow-hidden"><div className="h-full bg-tavix-red transition-[width] duration-1000 relative" style={{ width: pct + "%" }}><span className="absolute inset-y-0 right-0 w-10 shimmer" /></div></div>
-      {waiting && <p className="mt-3 text-sm text-amber-300 fade-up">The free AI service is busy. Tavix waits a few seconds and carries on automatically, nothing is lost.</p>}
+      {waiting && <p className="mt-3 text-sm text-amber-300 fade-up">The free AI service is busy. Taviz waits a few seconds and carries on automatically, nothing is lost.</p>}
 
       <ol className="mt-4 grid sm:grid-cols-3 gap-2">{STEPS.map((s, i) => { const e = log.find((x) => x.name === s.n), st = e?.state || "waiting"; return (
         <li key={s.n} className={"px-3 py-2 border cut-sm flex items-center gap-2 transition " + (st === "running" ? "border-tavix-red bg-tavix-red/10" : st === "done" ? "border-green-500/50" : "border-white/15 text-white/50")}>

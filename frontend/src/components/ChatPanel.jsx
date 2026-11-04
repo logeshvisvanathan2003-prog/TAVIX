@@ -13,7 +13,7 @@ const plain = (t) => t.replace(/[*`#_]/g, "").replace(/^\s*[-•]\s+/gm, "");
 const SUPPORT_INTENT = /\b(complaint|complain|raise (?:a )?ticket|support ticket|report (?:an? )?(?:issue|bug|problem)|file (?:a )?complaint|open (?:a )?ticket)\b/i;
 
 function Thinking({ status, mission }) {
-  const phrases = mission ? ["Reading your mission…", "Checking the requirements…", "Thinking it through…", "Writing the answer…"] : ["Reading your question…", "Checking what TAVIX knows…", "Writing the answer…"];
+  const phrases = mission ? ["Reading your mission…", "Checking the requirements…", "Thinking it through…", "Writing the answer…"] : ["Reading your question…", "Checking what TAVIZ knows…", "Writing the answer…"];
   const [i, setI] = useState(0);
   useEffect(() => { const t = setInterval(() => setI((x) => (x + 1) % phrases.length), 1800); return () => clearInterval(t); }, []);
   return <div className="fade-up flex gap-3 items-start">
@@ -36,8 +36,8 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   const stick = () => { const b = box.current; if (b && b.scrollHeight - b.scrollTop - b.clientHeight < 160) b.scrollTop = b.scrollHeight; };
   useEffect(() => { const b = box.current; if (b) b.scrollTop = b.scrollHeight; }, [msgs.length, busy, err]);
 
-  const hello = mission ? `I'm Tavix AI — TAVIX's own reasoning partner, not a generic chat wrapper. Mission #${mission} is open. Ask about the requirements, the themed prototype, the 3D map, or the ZIP you can open in VS Code.`
-    : "I'm TAVIX AI. Ask me about TAVIX, our founder, careers and how we hire, our products like ONE TAVIX AI, or how to use these websites.";
+  const hello = mission ? `I'm Taviz AI — TAVIZ's own reasoning partner, not a generic chat wrapper. Mission #${mission} is open. Ask about the requirements, the themed prototype, the 3D map, or the ZIP you can open in VS Code.`
+    : "I'm TAVIZ AI. Ask me about TAVIZ, our founder, careers and how we hire, our products like ONE TAVIZ AI, or how to use these websites.";
 
   useEffect(() => {
     let closed = false, retry;
@@ -54,8 +54,8 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
         if (m.type === "history") setMsgs(m.messages.length ? m.messages : [{ role: "assistant", content: hello }]);
         if (m.type === "status") setStatus(m.text);
         if (m.type === "token") { setStatus(""); setMsgs((x) => { const l = x[x.length - 1]; return l?.live ? [...x.slice(0, -1), { ...l, content: l.content + m.text }] : [...x, { role: "assistant", content: m.text, live: true }]; }); }
-        if (m.type === "booking") setMsgs((x) => [...x, { role: "system", content: `Booking #${m.id} placed. Tavix AI is already building it. Watch it live in My missions.` }]);
-        if (m.type === "ticket") setMsgs((x) => [...x, { role: "system", content: `Support ticket #${m.id} has been sent to the TAVIX team.`, ticketId: m.id }]);
+        if (m.type === "booking") setMsgs((x) => [...x, { role: "system", content: `Booking #${m.id} placed. Taviz AI is already building it. Watch it live in My missions.` }]);
+        if (m.type === "ticket") setMsgs((x) => [...x, { role: "system", content: `Support ticket #${m.id} has been sent to the TAVIZ team.`, ticketId: m.id }]);
         if (m.type === "error") { setErr(m.text); setMsgs((x) => x.filter((y) => !(y.live && !y.content.trim()))); }
         if (m.type === "done") {
           window.dispatchEvent(new Event("tavix:chat-updated"));
@@ -74,7 +74,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
     if (!t || busy || !online || ws.current?.readyState !== 1) return;
     setPending(null); setErr(null); setNote(""); speechSynthesis?.cancel?.();
     if (!again) setMsgs((x) => [...x, { role: "user", content: t }]);
-    lastUser.current = t; setText(""); setBusy(true); setStatus(""); ws.current.send(t); award("chat-first", 20, "Talked to Tavix AI");
+    lastUser.current = t; setText(""); setBusy(true); setStatus(""); ws.current.send(t); award("chat-first", 20, "Talked to Taviz AI");
     window.dispatchEvent(new Event("tavix:chat-updated"));
     if (user && !again && SUPPORT_INTENT.test(t)) {
       setTicketDraft({
@@ -104,7 +104,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
       setTicketDraft(null);
       setMsgs((current) => [...current, {
         role: "system",
-        content: `Support ticket #${ticket.id} has been sent to the TAVIX team. You can follow the conversation in My missions > Support tickets.`,
+        content: `Support ticket #${ticket.id} has been sent to the TAVIZ team. You can follow the conversation in My missions > Support tickets.`,
         ticketId: ticket.id,
       }]);
     } catch (error) {
@@ -131,7 +131,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   useEffect(() => { if (!pending) return; const t = setTimeout(() => send(pending), 1800); return () => clearTimeout(t); }, [pending]);
 
   const chips = useMemo(() => mission ? ["Summarise what you built", "List the key features", "What are the risks?", "How do I request a change?"]
-    : ["What is TAVIX AI and ONE TAVIX AI?", "How does TAVIX hire?", "What roles are open?", "Who founded TAVIX?"], [mission]);
+    : ["What is TAVIZ AI and ONE TAVIZ AI?", "How does TAVIZ hire?", "What roles are open?", "Who founded TAVIZ?"], [mission]);
   const only = msgs.length <= 1 && !busy;
   const wrap = { panel: "fixed z-50 bottom-24 right-3 left-3 sm:left-auto sm:right-5 sm:w-[420px] h-[72vh] max-h-[660px]", overlay: "fixed z-50 inset-3 sm:inset-8 sm:max-w-4xl sm:mx-auto", page: "relative h-full w-full max-w-3xl mx-auto" }[variant];
   const big = variant !== "panel";
@@ -139,7 +139,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   return (
     <section className={wrap + " bg-black text-white flex flex-col cut border border-tavix-red/60 animate-pop " + (big ? "text-lg" : "") + (variant === "page" ? ` workspace-chat-panel ${only ? "is-welcome" : "is-conversation"}` : "")}>
       <header className="flex items-center gap-3 p-4 border-b border-white/15">
-        <WingMark className="w-9" /><div className="flex-1 min-w-0"><h3 className="text-xs">TAVIX AI</h3>
+        <WingMark className="w-9" /><div className="flex-1 min-w-0"><h3 className="text-xs">TAVIZ AI</h3>
           <p className="text-sm text-white/60 truncate"><span className={"inline-block w-2 h-2 mr-1.5 " + (online ? "bg-green-400" : "bg-tavix-red animate-pulse")} />{mission ? `Mission #${mission} · ` : ""}{online ? "TAVIX-trained reasoning · your language" : "Reconnecting…"}</p></div>
         <button onClick={() => { const v = !speak; setSpeak(v); setStored("tavix_speak", v ? "1" : "0"); if (!v) speechSynthesis?.cancel?.(); }} aria-pressed={speak} title="Read answers aloud"
           className={"px-2 py-1 border text-sm " + (speak ? "bg-tavix-red border-tavix-red" : "border-white/25 text-white/70")}>{speak ? "🔊 On" : "🔈 Off"}</button>
@@ -154,7 +154,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
           : <div key={i} className="flex gap-3 fade-up"><WingMark className="w-6 shrink-0 mt-1.5 opacity-80" />
               <div className="min-w-0 max-w-[92%] bg-white/10 px-4 py-3 cut-sm">{m.live ? <Typed text={m.content} live onTick={stick} /> : <Typed text={m.content} live={false} />}</div></div>)}
         {ticketDraft && <form onSubmit={submitTicket} className="fade-up border border-tavix-red/60 bg-white/5 p-4 space-y-3">
-          <div className="flex items-center gap-2"><h4 className="font-display text-xs flex-1">SEND TO TAVIX SUPPORT</h4><button type="button" className="text-white/60" onClick={() => { setTicketDraft(null); setTicketError(""); }}>Cancel</button></div>
+          <div className="flex items-center gap-2"><h4 className="font-display text-xs flex-1">SEND TO TAVIZ SUPPORT</h4><button type="button" className="text-white/60" onClick={() => { setTicketDraft(null); setTicketError(""); }}>Cancel</button></div>
           <p className="text-sm text-white/70">This creates a private support ticket that the team can read and reply to in Admin &gt; Tickets.</p>
           <input required minLength={3} maxLength={200} className="input" placeholder="Short subject" value={ticketDraft.subject} onChange={(e) => setTicketDraft({ ...ticketDraft, subject: e.target.value })} />
           <select className="input" value={ticketDraft.category} onChange={(e) => setTicketDraft({ ...ticketDraft, category: e.target.value })}>
@@ -169,7 +169,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
         {err && <div className="fade-up border border-tavix-red bg-tavix-red/10 p-3" role="alert"><p className="text-sm">{err}</p>
           <button className="btn !py-2 !px-4 mt-2" onClick={() => send(lastUser.current, true)} disabled={busy}>Try again</button></div>}
         {only && <div className="flex flex-wrap gap-2 fade-up">{chips.map((c) => <button key={c} onClick={() => send(c)} className="px-3 py-1.5 text-sm border border-white/25 hover:bg-tavix-red hover:border-tavix-red transition cut-sm">{c}</button>)}</div>}
-        {!online && <p className="text-sm text-tavix-red">Cannot reach the Tavix backend on port 8000. Check that the backend window is running.</p>}
+        {!online && <p className="text-sm text-tavix-red">Cannot reach the Taviz backend on port 8000. Check that the backend window is running.</p>}
       </div>
 
       <div className="p-3 border-t border-white/15 space-y-2">

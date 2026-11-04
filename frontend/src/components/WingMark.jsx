@@ -1,4 +1,4 @@
-// TAVIX wing mark (two swept blades) with the HUD ring: a dashed ring turns slowly around it and a red arc sweeps the other way.
+// TAVIZ wing mark (two swept blades) with the HUD ring: a dashed ring turns slowly around it and a red arc sweeps the other way.
 export default function WingMark({ className = "", spin = false }) {
   return (
     <span className={"wm-wrap " + className}>

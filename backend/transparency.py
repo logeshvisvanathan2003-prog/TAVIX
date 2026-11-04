@@ -31,18 +31,18 @@ def upsert_project(db, booking):
     except json.JSONDecodeError:
         spec = {}
     status, progress = _status_progress(booking)
-    summary = str(spec.get("summary") or "").strip() or f"Live TAVIX mission in {booking.sector}."
+    summary = str(spec.get("summary") or "").strip() or f"Live TAVIZ mission in {booking.sector}."
     result = (booking.solution or "").strip()
     if booking.build_status == "ready" and not result:
-        result = "Prototype ready in Build Studio. The TAVIX team can still review before final delivery."
+        result = "Prototype ready in Build Studio. The TAVIZ team can still review before final delivery."
     elif not result:
-        result = "Tavix AI is assembling the prototype. Progress updates as the build finishes."
+        result = "Taviz AI is assembling the prototype. Progress updates as the build finishes."
     values = {
         "title": booking.title,
         "sector": booking.sector,
         "summary": summary[:2000],
         "tech": _tech(spec) or booking.sector,
-        "client": "TAVIX client",
+        "client": "TAVIZ client",
         "status": status,
         "progress": progress,
         "result": result[:4000],

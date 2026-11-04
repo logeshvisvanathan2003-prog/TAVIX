@@ -33,7 +33,7 @@ function BookingRow({ b, reload }) {
     catch (e) { setEm(adminRequestMessage(e)); }
   };
   return (<article className="bg-white/5 border border-white/15 p-5 cut-sm space-y-3">
-    <div className="flex justify-between gap-2 flex-wrap"><h3 className="text-xs">#{b.id} {b.title}</h3><span className="text-sm text-white/60">{b.source === "tavix-ai" ? "via Tavix AI" : "via form"} · {new Date(b.created_at).toLocaleString()}</span></div>
+    <div className="flex justify-between gap-2 flex-wrap"><h3 className="text-xs">#{b.id} {b.title}</h3><span className="text-sm text-white/60">{b.source === "tavix-ai" ? "via Taviz AI" : "via form"} · {new Date(b.created_at).toLocaleString()}</span></div>
     <p className="text-sm text-tavix-red font-semibold">{b.client_name} ({b.client_email}) · {b.sector}{b.budget ? ` · ${b.budget}` : ""}</p>
     <p className="text-sm"><span className={"px-2 py-0.5 font-display text-[10px] " + (b.build_status === "ready" ? "bg-green-600" : b.build_status === "failed" ? "bg-tavix-red" : "bg-amber-500 text-black")}>AI build: {b.build_status}</span>{['queued', 'building'].includes(b.build_status) && <span className="ml-2 text-white/70">{b.build_phase}…</span>}</p>
     {(b.domain || b.theme) && <p className="text-sm text-white/70">Product domain: {b.domain || "inferred"} · Visual theme: {b.theme || "AI inferred"}</p>}
@@ -92,7 +92,7 @@ function Overview({ data, reload, go }) {
     {s && <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       <Stat l="Registered clients" v={s.users} sub={`${s.new_users_today} joined today`} /><Stat l="Missions" v={s.bookings} sub={`${s.new_bookings_today} launched today`} />
       <Stat l="Open tickets" v={s.tickets_open} hot={s.tickets_unread > 0} sub={s.tickets_unread ? `${s.tickets_unread} unread` : "all read"} /><Stat l="AI builds" v={`${s.builds.ready || 0} ready`} sub={`${(s.builds.building || 0) + (s.builds.queued || 0)} running · ${s.builds.failed || 0} failed`} />
-      <Stat l="Booked by Tavix AI" v={s.ai_bookings} /><Stat l="AI messages" v={s.chats} /><Stat l="Reviews" v={s.feedback} /><Stat l="Delivered" v={s.by_status?.delivered || 0} /></div>}
+      <Stat l="Booked by Taviz AI" v={s.ai_bookings} /><Stat l="AI messages" v={s.chats} /><Stat l="Reviews" v={s.feedback} /><Stat l="Delivered" v={s.by_status?.delivered || 0} /></div>}
     <div className="grid lg:grid-cols-2 gap-6">
       <section className="bg-white/5 p-5 cut-sm"><h3 className="text-xs">LIVE BUILD MONITOR</h3>
         {live.length === 0 ? <p className="mt-3 text-white/60">No builds running right now.</p> : <ul className="mt-3 space-y-3">{live.map((b) => <li key={b.id} className="fade-up"><p className="font-semibold">#{b.id} {b.title} <span className="text-white/60 font-normal">· {b.client_name}</span></p>
@@ -155,10 +155,10 @@ export default function Admin() {
   };
   const addProject = async (e) => { e.preventDefault(); await api("/admin/projects", { method: "POST", body: { ...pf, progress: +pf.progress } }); setPf({ ...pf, title: "", summary: "", tech: "", client: "", result: "" }); await load(); };
   const bookings = (data.bookings || []).filter((b) => (!fs || b.status === fs) && (!fb || b.build_status === fb) && (b.title + b.client_name + b.client_email + b.problem).toLowerCase().includes(q.toLowerCase()));
-  const TABS = [["overview", "Overview"], ["bookings", "Missions"], ["tickets", "Tickets" + (s?.tickets_unread ? ` (${s.tickets_unread})` : "")], ["clients", "Clients"], ["chats", "AI chats"], ["projects", "Projects"], ["careers", "Careers"], ["teach", "Teach Tavix AI"]];
+  const TABS = [["overview", "Overview"], ["bookings", "Missions"], ["tickets", "Tickets" + (s?.tickets_unread ? ` (${s.tickets_unread})` : "")], ["clients", "Clients"], ["chats", "AI chats"], ["projects", "Projects"], ["careers", "Careers"], ["teach", "Teach Taviz AI"]];
   return (
     <main className="min-h-screen bg-black text-white pt-24 pb-16"><div className="max-w-6xl mx-auto px-5">
-      <div className="flex justify-between gap-3 flex-wrap items-center"><h1 className="text-xl">Command centre</h1><Link to="/admin/one-tavix" className="btn-o">ONE TAVIX AI users →</Link></div><p className="text-white/60 mt-1">Signed in as {user?.name}. Live data, refreshed every 5 seconds. Client builds start automatically; you monitor, support and review.</p>
+      <div className="flex justify-between gap-3 flex-wrap items-center"><h1 className="text-xl">Command centre</h1><Link to="/admin/one-tavix" className="btn-o">ONE TAVIZ AI users →</Link></div><p className="text-white/60 mt-1">Signed in as {user?.name}. Live data, refreshed every 5 seconds. Client builds start automatically; you monitor, support and review.</p>
       {adminError && <div className="mt-4 border border-tavix-red bg-tavix-red/10 p-4 cut-sm" role="alert">
         <p className="font-semibold">{adminError}</p>
         {(accessDenied.current || user?.role !== "admin") && <button className="btn mt-3 !py-2" onClick={() => { logout(); navigate("/admin/login"); }}>Sign in again</button>}

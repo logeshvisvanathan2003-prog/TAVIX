@@ -1,4 +1,4 @@
-"""Tavix AI: streaming, multilingual, tool-using assistant (Claude API)."""
+"""Taviz AI: streaming, multilingual, tool-using assistant (Claude API)."""
 import os
 import config, llm
 import asyncio, json, httpx, re
@@ -14,8 +14,8 @@ if config.backend() == "anthropic" and os.getenv("ANTHROPIC_API_KEY"):
 SECTORS = ["Web Development & Testing", "AI & ML Builds", "Blockchain Technologies",
            "Automotive Software", "Hardware + Software (IoT/Embedded)"]
 
-SYSTEM = f"""You are Tavix AI — the in-house reasoning partner of TAVIX, not a generic chatbot and not a clone of any vendor model.
-You were designed for TAVIX work: turning a client's messy real-world problem into a clear mission, a themed prototype, and honest next steps.
+SYSTEM = f"""You are Taviz AI — the in-house reasoning partner of TAVIZ, not a generic chatbot and not a clone of any vendor model.
+You were designed for TAVIZ work: turning a client's messy real-world problem into a clear mission, a themed prototype, and honest next steps.
 Founder: Logesh Visvanathan. Motto: Innovation with Honour.
 Sectors: {', '.join(SECTORS)}.
 
@@ -29,18 +29,18 @@ Voice:
 Honesty:
 - Never invent prices, deadlines, past clients, live metrics, or legal conclusions.
 - If a prototype uses sample data, say so. If a build is still running, say which step.
-- For pricing and delivery dates, say the TAVIX team confirms after review.
+- For pricing and delivery dates, say the TAVIZ team confirms after review.
 
 Scope:
-- You are the assistant on the TAVIX company website. You answer questions about TAVIX (company, founder, motive), careers and hiring, the products (today: ONE TAVIX AI), and how to use the TAVIX website and ONE TAVIX AI.
-- Use the TAVIX FACTS given to you. If they do not cover it, say the TAVIX team can confirm. Never invent roles, salaries, prices, dates, clients or numbers.
-- You do not build projects here. If someone wants a project built or wants to learn by building, send them to ONE TAVIX AI (Products menu, or https://one.tavixai.in).
+- You are the assistant on the TAVIZ company website. You answer questions about TAVIZ (company, founder, motive), careers and hiring, the products (today: ONE TAVIZ AI), and how to use the TAVIZ website and ONE TAVIZ AI.
+- Use the TAVIZ FACTS given to you. If they do not cover it, say the TAVIZ team can confirm. Never invent roles, salaries, prices, dates, clients or numbers.
+- You do not build projects here. If someone wants a project built or wants to learn by building, send them to ONE TAVIZ AI (Products menu, or https://one.tavixai.in).
 - For a human, point to the contact details in the website footer.
 
 Tools (local models): when you must call a tool, put this as the LAST line of your reply and nowhere else:
 <<TOOL name {{json_args}}>>
 Example: <<TOOL get_my_bookings {{}}>>
-Stay on TAVIX topics; for unrelated requests, steer back politely."""
+Stay on TAVIZ topics; for unrelated requests, steer back politely."""
 
 TOOLS = [
     {"name": "create_booking",
@@ -69,14 +69,14 @@ TOOLS = [
 
 def run_tool(db, user, name, args):
     if not user:
-        return "LOGIN_REQUIRED: the client must log in or register on the Tavix website first.", None, None
+        return "LOGIN_REQUIRED: the client must log in or register on the Taviz website first.", None, None
     if name == "create_booking":
         b = Booking(user_id=user.id, sector=args["sector"], title=args["title"][:200], problem=args["problem"],
                     budget=args.get("budget", ""), language=args.get("language", "en"),
                     domain=args.get("domain", "")[:253], theme=args.get("theme", "")[:300], source="tavix-ai")
         db.add(b); db.commit(); db.refresh(b)
-        asyncio.create_task(builder.build(b.id))  # Tavix AI starts building immediately
-        return f"Booking #{b.id} created. Tavix AI has started building the requirements, a website prototype and a 3D view; the client can watch it on the My missions page.", b.id, None
+        asyncio.create_task(builder.build(b.id))  # Taviz AI starts building immediately
+        return f"Booking #{b.id} created. Taviz AI has started building the requirements, a website prototype and a 3D view; the client can watch it on the My missions page.", b.id, None
     if name == "get_my_bookings":
         rows = db.query(Booking).filter_by(user_id=user.id).order_by(Booking.id.desc()).limit(10).all()
         if not rows:
@@ -105,7 +105,7 @@ def run_tool(db, user, name, args):
         db.refresh(ticket)
         db.add(TicketMessage(ticket_id=ticket.id, author_role="client", author_name=user.name, body=message))
         db.commit()
-        return f"Support ticket #{ticket.id} was submitted to the TAVIX team. The client can follow replies in My missions > Support tickets.", None, ticket.id
+        return f"Support ticket #{ticket.id} was submitted to the TAVIZ team. The client can follow replies in My missions > Support tickets.", None, ticket.id
     return "Unknown tool", None, None
 
 
@@ -148,7 +148,7 @@ def friendly(err):
     if "401" in err or "403" in err: return "The AI key is not accepted. The admin needs to check LOCAL_LLM_KEY in .env."
     if "404" in err: return "The AI model name is not available. The admin needs to check LOCAL_LLM_MODEL in .env."
     if "Connect" in err or "refused" in err: return "Cannot reach the AI model server. If you use the local model, start its window."
-    return "Tavix AI could not answer this time. Press Try again."
+    return "Taviz AI could not answer this time. Press Try again."
 
 
 async def respond(ws, db, user, session_id, history, extra=""):

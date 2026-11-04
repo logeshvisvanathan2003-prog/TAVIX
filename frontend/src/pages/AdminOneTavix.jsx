@@ -19,7 +19,7 @@ export default function AdminOneTavix() {
     const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([rows.map((r) => r.join(",")).join("\n")], { type: "text/csv" })); a.download = "one-tavix-ai-users.csv"; a.click(); };
   return (
     <main className="min-h-screen bg-black text-white pt-24 pb-16"><div className="max-w-6xl mx-auto px-5">
-      <div className="flex justify-between gap-3 flex-wrap items-center"><div><h1 className="text-xl">ONE TAVIX AI · learners</h1><p className="text-white/60 mt-1">Registered users, sign-ins and activity on {" "}<a className="text-tavix-red underline" href="https://one.tavixai.in" target="_blank" rel="noopener noreferrer">one.tavixai.in</a>. Refreshes every 10 seconds{at ? ` · updated ${at.toLocaleTimeString()}` : ""}.</p></div>
+      <div className="flex justify-between gap-3 flex-wrap items-center"><div><h1 className="text-xl">ONE TAVIZ AI · learners</h1><p className="text-white/60 mt-1">Registered users, sign-ins and activity on {" "}<a className="text-tavix-red underline" href="https://one.tavixai.in" target="_blank" rel="noopener noreferrer">one.tavixai.in</a>. Refreshes every 10 seconds{at ? ` · updated ${at.toLocaleTimeString()}` : ""}.</p></div>
         <Link to="/admin" className="btn-o">← Command centre</Link></div>
       {err && <p className="mt-5 bg-tavix-red/20 border border-tavix-red p-4" role="alert">{err}</p>}
       {sum && <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">

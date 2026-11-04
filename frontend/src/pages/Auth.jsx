@@ -13,13 +13,13 @@ export default function Auth({ mode }) {
     <main className="relative min-h-screen grid place-items-center px-5 pt-20 overflow-hidden"><Particles />
       <form onSubmit={submit} className="relative w-full max-w-md bg-black text-white p-8 cut space-y-4 animate-pop">
         <div className="mx-auto w-44 bg-white p-3"><AnimLogo rings /></div>
-        <h1 className="text-sm text-center">{reg ? "Create your TAVIX account" : "Log in to TAVIX"}</h1>
+        <h1 className="text-sm text-center">{reg ? "Create your TAVIZ account" : "Log in to TAVIZ"}</h1>
         {reg && <input required className="input" placeholder="Full name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />}
         <input required type="email" className="input" placeholder="Email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
         <input required type="password" minLength={reg ? 8 : 1} className="input" placeholder={reg ? "Password (8+ characters)" : "Password"} value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} />
         {err && <p className="text-tavix-red" role="alert">{err}</p>}
         <button disabled={busy} className="btn w-full">{busy ? "Please wait…" : reg ? "Register" : "Log in"}</button>
-        <p className="text-center text-white/70">{reg ? "Already registered?" : "New to TAVIX?"} <Link className="text-tavix-red font-semibold" to={reg ? "/login" : "/register"}>{reg ? "Log in" : "Register"}</Link></p>
+        <p className="text-center text-white/70">{reg ? "Already registered?" : "New to TAVIZ?"} <Link className="text-tavix-red font-semibold" to={reg ? "/login" : "/register"}>{reg ? "Log in" : "Register"}</Link></p>
       </form></main>
   );
 }

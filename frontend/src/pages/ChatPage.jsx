@@ -78,12 +78,12 @@ export default function ChatPage() {
   };
   if (!sessionId) return null;
   return (
-    <ClientWorkspace active="assistant" title="TAVIX AI" subtitle={m ? `Mission #${m} · project-aware assistant` : ""} historyChats={historyChats} historyLoading={historyLoading} historyError={historyError} historyActionError={historyActionError} deletingChatId={deletingChatId} onChatDelete={deleteChat} selectedChatId={sessionId} onChatSelect={selectChat} onMissionSelect={selectWorkspaceItem}>
+    <ClientWorkspace active="assistant" title="TAVIZ AI" subtitle={m ? `Mission #${m} · project-aware assistant` : ""} historyChats={historyChats} historyLoading={historyLoading} historyError={historyError} historyActionError={historyActionError} deletingChatId={deletingChatId} onChatDelete={deleteChat} selectedChatId={sessionId} onChatSelect={selectChat} onMissionSelect={selectWorkspaceItem}>
       <main className="workspace-chat-page">
         <div className="workspace-chat-landing">
           <div className="workspace-chat-intro">
             <AnimLogo rings className="al-chat" />
-            <p className="font-display text-[10px] uppercase tracking-[.2em] text-tavix-red">TAVIX · YOUR AI WORKSPACE</p>
+            <p className="font-display text-[10px] uppercase tracking-[.2em] text-tavix-red">TAVIZ · YOUR AI WORKSPACE</p>
             <h2 className="mt-3 text-3xl sm:text-4xl">{m ? `Mission #${m}` : `Hello${user?.name ? `, ${user.name.split(" ")[0]}` : ""}.`}</h2>
             <p className="mt-3 text-sm text-black/55">{m ? "Ask about the requirements, build progress, or next steps." : "What are we building today?"}</p>
           </div>

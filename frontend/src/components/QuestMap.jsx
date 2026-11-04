@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { award } from "../gamify.js";
 
-// The whole mission as a quest: each stage lights up as Tavix AI (and later the TAVIX team) completes it, and pays XP once.
+// The whole mission as a quest: each stage lights up as Taviz AI (and later the TAVIZ team) completes it, and pays XP once.
 export const QUEST = [
   { k: "launch", t: "Launched", xp: 0 },
   { k: "req", t: "Requirements", xp: 25, step: "Understanding the requirements" },

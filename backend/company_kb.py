@@ -1,4 +1,4 @@
-"""Company knowledge base for the TAVIX AI chat: markdown files in company_kb/ plus entries the admin adds on the 'Teach Tavix AI' tab.
+"""Company knowledge base for the TAVIZ AI chat: markdown files in company_kb/ plus entries the admin adds on the 'Teach Taviz AI' tab.
 Small BM25 retriever. Used two ways: (1) the best chunks are put in the model prompt as facts, (2) when no model is available it answers from them directly."""
 import math, re
 from pathlib import Path
@@ -95,11 +95,11 @@ def facts_block(query, db=None):
     hits = search(query, db, 3)
     if not hits:
         return ""
-    return "\n\nTAVIX FACTS (answer from these; do not contradict them; if they do not cover the question, say the TAVIX team can confirm):\n" + "\n".join(f"- {h}: {b}" for _, h, b in hits)
+    return "\n\nTAVIX FACTS (answer from these; do not contradict them; if they do not cover the question, say the TAVIZ team can confirm):\n" + "\n".join(f"- {h}: {b}" for _, h, b in hits)
 
 
 GREET = re.compile(r"^\s*(hi|hello|hey|hii|vanakkam|namaste|good (morning|afternoon|evening))\b", re.I)
-MENU = ("I'm TAVIX AI, the assistant of TAVIX. Ask me about the company and founder, careers and how we hire, our products (ONE TAVIX AI), "
+MENU = ("I'm TAVIZ AI, the assistant of TAVIZ. Ask me about the company and founder, careers and how we hire, our products (ONE TAVIZ AI), "
         "or how to use the website.")
 
 
@@ -109,7 +109,7 @@ def offline_answer(query, db=None):
     hits = search(query, db, 2)
     if not hits or hits[0][0] < 1.2:
         return ("I don't have a confirmed answer for that yet, and I won't guess. " + MENU +
-                " For anything else the TAVIX team can confirm; use the contact details in the footer.")
+                " For anything else the TAVIZ team can confirm; use the contact details in the footer.")
     best = hits[0]
     text = f"**{best[1]}**\n{best[2]}"
     if len(hits) > 1 and hits[1][0] > best[0] * .75:

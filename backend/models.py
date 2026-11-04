@@ -62,7 +62,7 @@ class Booking(Base):
     source = Column(String(20), default="form")  # form | tavix-ai
     status = Column(String(20), default="placed")  # placed | reviewing | in_progress | delivered
     solution = Column(Text, default="")
-    # Tavix AI build output
+    # Taviz AI build output
     spec = Column(Text, default="")
     site_html = Column(Text, default="")
     scene = Column(Text, default="")
@@ -70,7 +70,7 @@ class Booking(Base):
     build_log = Column(Text, default="[]")
     build_error = Column(Text, default="")
     build_provider = Column(String(20), default="")  # anthropic | local
-    reviewed = Column(Boolean, default=False)  # a TAVIX engineer approved the build
+    reviewed = Column(Boolean, default=False)  # a TAVIZ engineer approved the build
     build_live = Column(Text, default="")  # text the AI is writing right now (streamed, shown live to the client)
     build_phase = Column(String(80), default="")  # short label of what the AI is doing right now
     build_started = Column(DateTime, nullable=True)
@@ -115,7 +115,7 @@ class TicketMessage(Base):
 
 
 class KnowledgeEntry(Base):
-    """A fact the admin taught Tavix AI on the 'Teach Tavix AI' tab (company, careers, products, website help)."""
+    """A fact the admin taught Taviz AI on the 'Teach Taviz AI' tab (company, careers, products, website help)."""
     __tablename__ = "knowledge_entries"
     id = Column(Integer, primary_key=True)
     title = Column(String(200), nullable=False)

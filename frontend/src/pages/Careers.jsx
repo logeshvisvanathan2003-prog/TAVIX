@@ -26,13 +26,13 @@ export default function Careers() {
   const [role, setRole] = useState(null);
   return (<main>
     <section className="relative pt-32 pb-20 bg-white overflow-hidden"><Particles /><div className="relative max-w-7xl mx-auto px-5">
-      <p className="font-display text-xs text-tavix-red animate-pop">CAREERS AT TAVIX</p>
+      <p className="font-display text-xs text-tavix-red animate-pop">CAREERS AT TAVIZ</p>
       <h1 className="text-3xl sm:text-5xl mt-3 max-w-4xl leading-tight">Build things that matter, with people who care how they are built.</h1>
-      <p className="mt-6 text-xl text-black/70 max-w-2xl">TAVIX is a young company with real problems and an honest way of working. Here is what life is like, how we hire, and where you could fit.</p>
+      <p className="mt-6 text-xl text-black/70 max-w-2xl">TAVIZ is a young company with real problems and an honest way of working. Here is what life is like, how we hire, and where you could fit.</p>
       <div className="mt-8 flex gap-4 flex-wrap"><a href="#roles" className="btn">See open roles</a><a href="#hiring" className="btn-o">How we hire</a></div></div></section>
 
     <section className="py-24 bg-black text-white"><div className="max-w-7xl mx-auto px-5">
-      <Reveal><h2 className="text-2xl sm:text-3xl">Life at TAVIX</h2></Reveal>
+      <Reveal><h2 className="text-2xl sm:text-3xl">Life at TAVIZ</h2></Reveal>
       <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">{LIFE.map(([t, d], i) => <Reveal key={t} delay={i * 90}><div className="h-full border-l-4 border-tavix-red bg-white/5 p-5 hover:-translate-y-1 transition"><h3 className="text-xs">{t}</h3><p className="mt-2 text-white/70">{d}</p></div></Reveal>)}</div></div></section>
 
     <section id="hiring" className="py-24 bg-white"><div className="max-w-4xl mx-auto px-5">
@@ -46,7 +46,7 @@ export default function Careers() {
         <div className="mt-4 flex flex-wrap gap-2">{r.skills.map((s) => <span key={s} className="text-xs border border-white/25 px-2 py-1">{s}</span>)}</div>
         <button className="btn mt-5" onClick={() => setRole(r)}>Apply</button></div></Reveal>)}</div></div></section>
 
-    <section className="py-20 bg-tavix-red text-white text-center"><div className="max-w-3xl mx-auto px-5"><Reveal><h2 className="text-2xl">Questions about working here?</h2><p className="mt-3">Ask TAVIX AI at the bottom right, or write to <a className="underline" href={"mailto:" + COMPANY.email}>{COMPANY.email}</a>.</p><button className="btn !bg-black mt-6" onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))}>Ask TAVIX AI</button> <Link to="/" className="btn-o ml-3">Back to home</Link></Reveal></div></section>
+    <section className="py-20 bg-tavix-red text-white text-center"><div className="max-w-3xl mx-auto px-5"><Reveal><h2 className="text-2xl">Questions about working here?</h2><p className="mt-3">Ask TAVIZ AI at the bottom right, or write to <a className="underline" href={"mailto:" + COMPANY.email}>{COMPANY.email}</a>.</p><button className="btn !bg-black mt-6" onClick={() => window.dispatchEvent(new CustomEvent("open-tavix-ai"))}>Ask TAVIZ AI</button> <Link to="/" className="btn-o ml-3">Back to home</Link></Reveal></div></section>
     {role && <Apply role={role} onClose={() => setRole(null)} />}
   </main>);
 }

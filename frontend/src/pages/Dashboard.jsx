@@ -13,7 +13,7 @@ import ClientWorkspace from "../components/ClientWorkspace.jsx";
 
 export function AiHealth() {
   const [h, setH] = useState(null);
-  useEffect(() => { const l = () => api("/ai/health").then(setH).catch(() => setH({ online: false, backend: "?", detail: "The Tavix backend (port 8000) is not reachable." })); l(); const t = setInterval(l, 8000); return () => clearInterval(t); }, []);
+  useEffect(() => { const l = () => api("/ai/health").then(setH).catch(() => setH({ online: false, backend: "?", detail: "The Taviz backend (port 8000) is not reachable." })); l(); const t = setInterval(l, 8000); return () => clearInterval(t); }, []);
   if (!h) return null;
   return <p role="status" className={"inline-block px-3 py-2 text-sm font-semibold cut-sm " + (h.online ? "bg-black text-white" : "border border-tavix-red text-tavix-red bg-white")}>
     <span className={"inline-block w-2 h-2 mr-2 " + (h.online ? "bg-green-400" : "bg-tavix-red animate-pulse")} />AI engine ({h.backend}): {h.online ? "online" : "OFFLINE"}. {h.detail}</p>;
@@ -67,8 +67,8 @@ export function Studio({ id, title, onTicket }) {
   return (
     <div className="mt-4 bg-white border-t-4 border-tavix-red pt-4">
       <div className="flex flex-wrap items-center gap-2 justify-between">
-        <p className="font-semibold">Tavix AI Build Studio {b.reviewed && b.build_status === "ready" ? <span className="ml-2 bg-black text-white text-sm px-2">Reviewed by TAVIX ✓</span> : b.build_status === "ready" ? <span className="ml-2 border border-black/30 text-sm px-2">AI build · ready to use</span> : null}</p>
-        <button className="btn-o !py-2" onClick={() => dispatchEvent(new CustomEvent("open-tavix-ai", { detail: { mission: id } }))}>Ask Tavix AI about this</button>
+        <p className="font-semibold">Taviz AI Build Studio {b.reviewed && b.build_status === "ready" ? <span className="ml-2 bg-black text-white text-sm px-2">Reviewed by TAVIZ ✓</span> : b.build_status === "ready" ? <span className="ml-2 border border-black/30 text-sm px-2">AI build · ready to use</span> : null}</p>
+        <button className="btn-o !py-2" onClick={() => dispatchEvent(new CustomEvent("open-tavix-ai", { detail: { mission: id } }))}>Ask Taviz AI about this</button>
       </div>
       {building && <LiveBuild b={b} title={title} />}
       {b.build_status === "failed" && <div className="mt-4 p-4 border border-tavix-red fade-up" role="alert"><p className="text-tavix-red">The build did not finish. The AI model may be offline or busy.</p>
@@ -89,7 +89,7 @@ export function Studio({ id, title, onTicket }) {
           <span className="w-6 h-6 rounded-full border" style={{ background: look.bg }} />
           <span className="text-sm">{look.domain} · {look.mood} · {look.requested_theme}</span>
         </div>}
-        {spec && <div className="mt-4 bg-black text-white p-5 cut"><p className="text-sm text-white/60">Tavix AI's response to your request</p>
+        {spec && <div className="mt-4 bg-black text-white p-5 cut"><p className="text-sm text-white/60">Taviz AI's response to your request</p>
           <div className="mt-1 text-lg"><Typed text={spec.summary || ""} live={fresh} /></div>
           {spec.features?.length > 0 && <ul className="mt-3 space-y-1">{spec.features.slice(0, 5).map((f, i) => <li key={i} className={fresh ? "fade-up" : ""} style={fresh ? { animationDelay: 700 + i * 220 + "ms" } : undefined}><span className="text-tavix-red">▸ </span>{f}</li>)}</ul>}
           <div className="mt-4 flex gap-2 flex-wrap"><button className="btn" onClick={() => setFull(true)}>⛶ Full screen preview</button><button className="btn-o" onClick={() => setTab("spec")}>Read requirements</button></div></div>}
@@ -102,13 +102,13 @@ export function Studio({ id, title, onTicket }) {
           {tab === "spec" && spec && <div><p className="text-lg">{spec.summary}</p><List t="Features" a={spec.features} />
             {spec.modules?.length > 0 && <div className="mt-4 overflow-x-auto"><h4 className="text-xs">Modules</h4><table className="mt-2 w-full text-left"><tbody>{spec.modules.map((m, i) => <tr key={i} className="border-b"><td className="py-2 pr-3 font-semibold">{m.name}</td><td className="pr-3">{m.purpose}</td><td className="text-tavix-red">{m.tech}</td></tr>)}</tbody></table></div>}
             <List t="Compliance to check" a={spec.compliance} /><List t="Data entities" a={spec.data_entities} /><List t="Risks" a={spec.risks} /><List t="Milestones" a={spec.milestones} /></div>}
-          {tab === "revise" && <div className="space-y-3"><p>Tell Tavix AI what to change. It rebuilds the requirements, website and 3D view, live.</p>
+          {tab === "revise" && <div className="space-y-3"><p>Tell Taviz AI what to change. It rebuilds the requirements, website and 3D view, live.</p>
             <textarea className="input-l" rows={4} value={ins} onChange={(e) => setIns(e.target.value)} placeholder="e.g. Add a district-wise wastage map and a monthly compliance report" />
             <button className="btn" disabled={ins.trim().length < 5} onClick={revise}>Rebuild with changes</button></div>}
         </div></div></>}
       {full && b.site_html && <FullPreview html={b.site_html} title={title} onClose={() => setFull(false)} />}
       {msg && <p className="mt-2 text-tavix-red" role="alert">{msg}</p>}
-      <p className="mt-4 text-sm text-black/50">Generated by Tavix AI as a prototype. Sample data only. A TAVIX engineer can review it before final delivery.</p>
+      <p className="mt-4 text-sm text-black/50">Generated by Taviz AI as a prototype. Sample data only. A TAVIZ engineer can review it before final delivery.</p>
     </div>
   );
 }
@@ -139,7 +139,7 @@ export default function Dashboard({ embedded = false }) {
   };
   const dashboardContent = (
     <main className={(embedded ? "embedded-dashboard " : "workspace-dashboard ") + "px-4 sm:px-7 py-7 sm:py-9 max-w-6xl mx-auto w-full"}>
-      <h1 className="text-2xl">My missions</h1><p className="mt-2 text-black/70">Hello {user?.name}. Tavix AI starts building the moment you book, and you can watch every step live below.</p>
+      <h1 className="text-2xl">My missions</h1><p className="mt-2 text-black/70">Hello {user?.name}. Taviz AI starts building the moment you book, and you can watch every step live below.</p>
       <div className="mt-3"><AiHealth /></div>
       <section className={"mt-6 bg-black text-white p-5 cut " + (unlocked("gold-wing", g) ? "gold-wing" : "") + (unlocked("hud-pulse", g) ? " hud-pulse" : "")} aria-label="Your progress">
         <div className="flex justify-between flex-wrap gap-2 font-display text-xs"><span>LVL {lvl + 1} · {RANKS[lvl]}</span><span>{g.xp} XP · {availableXp(g)} unspent{lvl < RANKS.length - 1 ? ` · ${toNext} to ${RANKS[lvl + 1]}` : " · MAX RANK"}</span></div>
@@ -158,13 +158,13 @@ export default function Dashboard({ embedded = false }) {
           <p className="mt-2 text-black/70">{b.problem}</p>
           {(b.domain || b.theme) && <p className="mt-2 text-sm text-black/60">Domain: {b.domain || "AI inferred"} · Theme: {b.theme || "AI inferred"}</p>}
           <QuestMap b={b} />
-          <p className="mt-3 text-sm font-semibold">{b.status.replace("_", " ")} · AI build: {["queued", "building"].includes(b.build_status) ? <span className="text-tavix-red">{b.build_phase || "starting"}…</span> : b.build_status}{b.reviewed && b.build_status === "ready" ? " · reviewed by TAVIX ✓" : ""}</p>
-          {b.solution && <div className="mt-3 bg-black text-white p-4 cut-sm"><p className="text-sm text-white/60">Message from the TAVIX team</p><p className="mt-1 whitespace-pre-wrap">{b.solution}</p></div>}
+          <p className="mt-3 text-sm font-semibold">{b.status.replace("_", " ")} · AI build: {["queued", "building"].includes(b.build_status) ? <span className="text-tavix-red">{b.build_phase || "starting"}…</span> : b.build_status}{b.reviewed && b.build_status === "ready" ? " · reviewed by TAVIZ ✓" : ""}</p>
+          {b.solution && <div className="mt-3 bg-black text-white p-4 cut-sm"><p className="text-sm text-white/60">Message from the TAVIZ team</p><p className="mt-1 whitespace-pre-wrap">{b.solution}</p></div>}
           <button className="btn mt-4" onClick={() => setOpen(open === b.id ? null : b.id)}>{open === b.id ? "Close Build Studio" : ["queued", "building"].includes(b.build_status) ? "Watch the live build" : "Open Build Studio"}</button>
           {open === b.id && <Studio id={b.id} title={b.title} onTicket={onTicket} />}
         </article>)}</div></>}
     </main>
   );
   if (embedded) return <section id="client-missions" className="client-missions-embed py-10 sm:py-14">{dashboardContent}</section>;
-  return <ClientWorkspace active={tab === "tickets" ? "support" : "missions"} title={tab === "tickets" ? "Support tickets" : "TAVIX AI"} subtitle={`Welcome back, ${user?.name || "client"}`} onMissionSelect={selectWorkspaceItem}>{dashboardContent}</ClientWorkspace>;
+  return <ClientWorkspace active={tab === "tickets" ? "support" : "missions"} title={tab === "tickets" ? "Support tickets" : "TAVIZ AI"} subtitle={`Welcome back, ${user?.name || "client"}`} onMissionSelect={selectWorkspaceItem}>{dashboardContent}</ClientWorkspace>;
 }

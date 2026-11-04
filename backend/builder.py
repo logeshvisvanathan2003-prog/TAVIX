@@ -1,4 +1,4 @@
-"""Tavix AI builder: client request -> requirements spec -> website prototype -> 3D architecture scene."""
+"""Taviz AI builder: client request -> requirements spec -> website prototype -> 3D architecture scene."""
 import asyncio, json, os, re, time
 from datetime import datetime
 from html import escape, unescape
@@ -254,11 +254,11 @@ async def _build(bid: int, instruction: str = ""):
                  f"Requested visual theme: {b.theme or 'infer a distinctive theme from the product domain and audience'}{prev}")
         step("Understanding the requirements", "running"); b.build_phase = "Writing your requirements"; db.commit()
         spec, prov = await json_call(
-            "You are Tavix AI, a senior solutions architect. Return ONLY JSON, no prose.",
+            "You are Taviz AI, a senior solutions architect. Return ONLY JSON, no prose.",
             brief + '\n\nProduce JSON: {"summary":str,"features":[str],"modules":[{"name":str,"purpose":str,"tech":str}],'
                     '"compliance":[str],"data_entities":[str],"risks":[str],"milestones":[str]}. Be concrete and specific to this request. '
                     'Keep it compact: at most 6 features, 5 modules, 4 items in each other list. '
-                    'For regulated topics list the real rule categories to check, and say the TAVIX team must verify local law.', 2600,
+                    'For regulated topics list the real rule categories to check, and say the TAVIZ team must verify local law.', 2600,
             on_text=writer(), on_status=on_status)
         identity = compose_theme(b.domain, b.theme, b.sector, b.title, spec)
         spec["visual_identity"] = identity
@@ -266,9 +266,9 @@ async def _build(bid: int, instruction: str = ""):
 
         step("Designing the website prototype", "running"); b.build_phase = "Designing your website"; db.commit()
         html, _ = await llm.complete(
-            "You are Tavix AI, a front-end engineer. Return ONLY one complete self-contained HTML document, no commentary. "
+            "You are Taviz AI, a front-end engineer. Return ONLY one complete self-contained HTML document, no commentary. "
             "Create a distinctive visual identity for this client's product and audience. Respect their requested theme and domain. "
-            "Do not apply a generic TAVIX red-and-black brand theme unless the client explicitly requested it. "
+            "Do not apply a generic TAVIZ red-and-black brand theme unless the client explicitly requested it. "
             "When the client has not chosen a theme, use the mandatory visual identity below, inferred from the product domain.",
             f"{brief}\n\nSpec:\n{json.dumps(spec)}\n\n{theme_prompt(identity)}\n\nBuild a working interactive prototype of this product: vanilla JS and inline CSS only, no external "
             f"requests except Google Fonts. Make it feel like a polished, production-quality product designed for its specific audience, "
@@ -280,7 +280,7 @@ async def _build(bid: int, instruction: str = ""):
             f"every menu item must scroll to visible content and work on keyboard and touch. Buttons, tabs, and forms must respond when activated. "
             f"Keep the visual design specific to the client domain and requested theme, responsive, and accessible with visible focus states. "
             f"Use inline CSS/vanilla JS and clearly label demo data. Always finish with </html>. "
-            f"Footer text: 'Prototype by Tavix AI'.", site_tokens(), on_text=writer(), on_status=on_status)
+            f"Footer text: 'Prototype by Taviz AI'.", site_tokens(), on_text=writer(), on_status=on_status)
         b.site_html = inject_theme(repair_navigation(finish_html(html), spec), identity)
         b.build_live = b.site_html[:LIVE_MAX]; step("Designing the website prototype", "done")
 
