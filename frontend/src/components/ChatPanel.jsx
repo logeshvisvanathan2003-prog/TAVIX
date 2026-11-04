@@ -27,6 +27,8 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   const { user } = useAuth();
   const [msgs, setMsgs] = useState([]), [text, setText] = useState(""), [busy, setBusy] = useState(false), [online, setOnline] = useState(false);
   const [lang, setLang] = useState("en-IN"), [listening, setListening] = useState(false), [status, setStatus] = useState(""), [err, setErr] = useState(null);
+  const [slow, setSlow] = useState(false);
+  useEffect(() => { if (online) { setSlow(false); return; } const t = setTimeout(() => setSlow(true), 8000); return () => clearTimeout(t); }, [online]);
   const [pending, setPending] = useState(null), [speak, setSpeak] = useState(getStored("tavix_speak") === "1"), [note, setNote] = useState("");
   const [ticketDraft, setTicketDraft] = useState(null), [ticketError, setTicketError] = useState(""), [ticketBusy, setTicketBusy] = useState(false);
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
       const s = new WebSocket(`${proto}://${location.host}/ws/chat?session=${encodeURIComponent(chatSession)}${mission ? "m" + mission : ""}&token=${getToken() || ""}${mission ? "&mission=" + mission : ""}`);
       ws.current = s;
       s.onopen = () => setOnline(true);
-      s.onclose = () => { setOnline(false); setBusy(false); if (!closed) retry = setTimeout(connect, 2500); };
+      s.onclose = () => { setOnline(false); setBusy(false); if (!closed) retry = setTimeout(connect, 700); };
       s.onmessage = (e) => {
         const m = JSON.parse(e.data);
         if (m.type === "history") setMsgs(m.messages.length ? m.messages : [{ role: "assistant", content: hello }]);
@@ -140,7 +142,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
     <section className={wrap + " bg-black text-white flex flex-col cut border border-tavix-red/60 animate-pop " + (big ? "text-lg" : "") + (variant === "page" ? ` workspace-chat-panel ${only ? "is-welcome" : "is-conversation"}` : "")}>
       <header className="flex items-center gap-3 p-4 border-b border-white/15">
         <WingMark className="w-9" /><div className="flex-1 min-w-0"><h3 className="text-xs">TAVIZ AI</h3>
-          <p className="text-sm text-white/60 truncate"><span className={"inline-block w-2 h-2 mr-1.5 " + (online ? "bg-green-400" : "bg-tavix-red animate-pulse")} />{mission ? `Mission #${mission} · ` : ""}{online ? "TAVIX-trained reasoning · your language" : "Reconnecting…"}</p></div>
+          <p className="text-sm text-white/60 truncate"><span className={"inline-block w-2 h-2 mr-1.5 " + (online ? "bg-green-400" : "bg-tavix-red animate-pulse")} />{mission ? `Mission #${mission} · ` : ""}{online ? "TAVIZ-trained reasoning · your language" : (slow ? "Offline" : "Connecting…")}</p></div>
         <button onClick={() => { const v = !speak; setSpeak(v); setStored("tavix_speak", v ? "1" : "0"); if (!v) speechSynthesis?.cancel?.(); }} aria-pressed={speak} title="Read answers aloud"
           className={"px-2 py-1 border text-sm " + (speak ? "bg-tavix-red border-tavix-red" : "border-white/25 text-white/70")}>{speak ? "🔊 On" : "🔈 Off"}</button>
         {variant !== "page" && onExpand && <button onClick={onExpand} aria-label="Expand" className="text-white/60 hover:text-white px-1">{variant === "overlay" ? "⤡" : "⤢"}</button>}
@@ -169,7 +171,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
         {err && <div className="fade-up border border-tavix-red bg-tavix-red/10 p-3" role="alert"><p className="text-sm">{err}</p>
           <button className="btn !py-2 !px-4 mt-2" onClick={() => send(lastUser.current, true)} disabled={busy}>Try again</button></div>}
         {only && <div className="flex flex-wrap gap-2 fade-up">{chips.map((c) => <button key={c} onClick={() => send(c)} className="px-3 py-1.5 text-sm border border-white/25 hover:bg-tavix-red hover:border-tavix-red transition cut-sm">{c}</button>)}</div>}
-        {!online && <p className="text-sm text-tavix-red">Cannot reach the Taviz backend on port 8000. Check that the backend window is running.</p>}
+        {!online && slow && <p className="text-sm text-tavix-red">TAVIZ AI is not reachable right now. Please try again in a moment, or raise a support ticket below.</p>}
       </div>
 
       <div className="p-3 border-t border-white/15 space-y-2">
