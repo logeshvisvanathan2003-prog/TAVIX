@@ -2,7 +2,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: { extend: {
     colors: { tavix: { red: "#E10600", deep: "#8A0000", ink: "#0A0A0A", paper: "#FFFFFF" } },
-    fontFamily: { display: ["Inter", "system-ui", "sans-serif"], body: ["Inter", "system-ui", "sans-serif"] },
+    fontFamily: { display: ["Michroma", "sans-serif"], body: ["Rajdhani", "sans-serif"] },
     keyframes: {
       wingL: { from: { transform: "translate(-60px,-30px) skewX(20deg)", opacity: 0 }, to: { transform: "none", opacity: 1 } },
       wingR: { from: { transform: "translate(60px,-30px) skewX(-20deg)", opacity: 0 }, to: { transform: "none", opacity: 1 } },

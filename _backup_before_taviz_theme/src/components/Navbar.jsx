@@ -12,9 +12,9 @@ export default function Navbar() {
   useEffect(() => { setOpen(false); setDd(false); }, [pathname]);
   const cls = "relative font-semibold hover:text-tavix-red transition after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-tavix-red hover:after:w-full after:transition-all";
   return (
-    <header className={"site-chrome fixed top-0 inset-x-0 z-40 backdrop-blur border-b transition-all " + (scrolled ? "tz-nav is-scrolled" : "tz-nav")}>
+    <header className={"site-chrome fixed top-0 inset-x-0 z-40 backdrop-blur border-b transition-all " + (scrolled ? "tz-nav is-scrolled bg-white/95 border-black/10 shadow-sm" : "tz-nav bg-white/80 border-transparent")}>
       <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
-        <Link to="/" aria-label="TAVIZ home" className="block w-[92px]"><AnimLogo light /></Link>
+        <Link to="/" aria-label="TAVIZ home" className="block w-[92px]"><AnimLogo dk /></Link>
         <nav className="hidden lg:flex items-center gap-8">
           <Link to="/" className={cls}>Home</Link>
           <a href="/#about" className={cls}>About</a>
@@ -36,7 +36,7 @@ export default function Navbar() {
             : <><Link to="/login" className="font-semibold hover:text-tavix-red">Log in</Link><Link to="/register" className="btn">Register</Link></>}</div>
         <button className="lg:hidden font-display text-xs" aria-label="Menu" onClick={() => setOpen(!open)}>{open ? "CLOSE" : "MENU"}</button>
       </div>
-      {open && <div className="lg:hidden tz-mobile px-5 py-4 flex flex-col gap-4 font-semibold dd-panel">
+      {open && <div className="lg:hidden tz-mobile bg-white border-t border-black/10 px-5 py-4 flex flex-col gap-4 font-semibold dd-panel">
         <Link to="/">Home</Link><a href="/#about">About</a>
         <div><p className="text-sm text-black/50">Products</p>{PRODUCTS.map((p) => <a key={p.id} href={p.url} className="block mt-1 text-tavix-red">{p.name} · {p.status} →</a>)}</div>
         <a href="/#portfolio">Portfolio</a><Link to="/careers">Careers</Link><a href="/#contact">Contact</a><Link to="/chat">TAVIZ AI page</Link>

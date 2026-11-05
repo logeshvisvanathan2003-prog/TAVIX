@@ -12,13 +12,13 @@ export default function Particles() {
       pts.forEach((p, i) => {
         p.x = (p.x + p.vx + 1) % 1; p.y = (p.y + p.vy + 1) % 1;
         const px = p.x * w, py = p.y * h;
-        x.fillStyle = "#FF3B30"; x.fillRect(px, py, 2.5, 2.5);
+        x.fillStyle = "#E10600"; x.fillRect(px, py, 2.5, 2.5);
         for (let j = i + 1; j < pts.length; j++) {
           const qx = pts[j].x * w, qy = pts[j].y * h, dd = Math.hypot(px - qx, py - qy);
           if (dd < 130) { x.strokeStyle = `rgba(225,6,0,${.28 * (1 - dd / 130)})`; x.beginPath(); x.moveTo(px, py); x.lineTo(qx, qy); x.stroke(); }
         }
         const dm = Math.hypot(px - mouse.x, py - mouse.y);
-        if (dm < 170) { x.strokeStyle = `rgba(255,255,255,${.35 * (1 - dm / 170)})`; x.beginPath(); x.moveTo(px, py); x.lineTo(mouse.x, mouse.y); x.stroke(); }
+        if (dm < 170) { x.strokeStyle = `rgba(${document.documentElement.classList.contains("tz") ? "255,255,255" : "0,0,0"},${.35 * (1 - dm / 170)})`; x.beginPath(); x.moveTo(px, py); x.lineTo(mouse.x, mouse.y); x.stroke(); }
       });
       raf = requestAnimationFrame(draw);
     };

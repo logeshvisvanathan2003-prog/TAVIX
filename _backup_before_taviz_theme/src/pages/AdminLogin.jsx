@@ -9,7 +9,7 @@ export default function AdminLogin() {
   return (
     <main className="min-h-screen bg-black text-white grid place-items-center px-5">
       <form onSubmit={submit} className="w-full max-w-md border border-tavix-red/60 p-8 cut space-y-4 animate-pop">
-        <div className="mx-auto w-44"><AnimLogo rings light /></div>
+        <div className="mx-auto w-44 tz-logobox"><AnimLogo rings dk /></div>
         <h1 className="text-sm text-center">COMMAND CENTRE · ADMIN LOGIN</h1>
         <input required type="email" className="input" placeholder="Admin email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />
         <input required type="password" className="input" placeholder="Password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} />

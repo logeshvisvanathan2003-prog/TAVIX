@@ -313,18 +313,18 @@ html.tz .btn:hover::after{transform:translateX(120%);transition:transform .8s}
 html.tz .btn-o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
 html.tz .btn-o:hover{border-color:#e10600;color:#fff;background:rgba(225,6,0,.12)}
 /* nav */
-.tz-nav{background:rgba(5,5,6,.55);border-color:transparent!important;backdrop-filter:blur(14px)}
-.tz-nav.is-scrolled{background:rgba(5,5,6,.88);border-color:rgba(255,255,255,.08)!important;box-shadow:0 10px 40px -20px rgba(225,6,0,.5)}
-.tz-nav a,.tz-nav button{color:rgba(255,255,255,.8)}
-.tz-nav a:hover{color:#fff}
-.tz-mobile{background:rgba(5,5,6,.97);border-top:1px solid rgba(255,255,255,.1)}
-.tz-mobile a,.tz-mobile button{color:#fff}
-.tz-nav .btn,.tz-mobile .btn{color:#fff}
+html.tz .tz-nav{background:rgba(5,5,6,.55);border-color:transparent!important;backdrop-filter:blur(14px)}
+html.tz .tz-nav.is-scrolled{background:rgba(5,5,6,.88);border-color:rgba(255,255,255,.08)!important;box-shadow:0 10px 40px -20px rgba(225,6,0,.5)}
+html.tz .tz-nav a,html.tz .tz-nav button{color:rgba(255,255,255,.8)}
+html.tz .tz-nav a:hover{color:#fff}
+html.tz .tz-mobile{background:rgba(5,5,6,.97);border-top:1px solid rgba(255,255,255,.1)}
+html.tz .tz-mobile a,html.tz .tz-mobile button{color:#fff}
+html.tz .tz-nav .btn,html.tz .tz-mobile .btn{color:#fff}
 /* hero */
-.tz-hero{background:transparent}
+html.tz .tz-hero{background:transparent}
 .tz-eyebrow{font-size:.72rem;letter-spacing:.35em;color:#ff3b30;margin-bottom:1rem;animation:tzFade .9s both}
 .tz-words .w{display:inline-block;opacity:0;transform:translateY(24px);filter:blur(6px);animation:tzWord .8s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i)*.09s + .2s)}
-.tz-words .w.ai{color:#ff3b30;text-shadow:0 0 28px rgba(225,6,0,.7)}
+html.tz .tz-words .w.ai{color:#ff3b30;text-shadow:0 0 28px rgba(225,6,0,.7)}
 @keyframes tzWord{to{opacity:1;transform:none;filter:none}}
 @keyframes tzFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .tz-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.5}
@@ -333,9 +333,9 @@ html.tz .btn-o:hover{border-color:#e10600;color:#fff;background:rgba(225,6,0,.12
 @keyframes tzFloat{50%{transform:translate(30px,-40px) scale(1.12)}}
 .tz-scan{position:absolute;left:0;right:0;height:140px;top:-140px;pointer-events:none;background:linear-gradient(transparent,rgba(225,6,0,.1),transparent);animation:tzScan 7s linear infinite}
 @keyframes tzScan{to{transform:translateY(120vh)}}
-.tz-stat{border-left:2px solid #e10600;padding-left:.9rem;background:linear-gradient(90deg,rgba(225,6,0,.12),transparent)}
-.tz-stat dt{color:rgba(255,255,255,.55)}
-.tz-panel{background:linear-gradient(160deg,#101014,#07070a);border:1px solid rgba(225,6,0,.35);box-shadow:0 0 60px -15px rgba(225,6,0,.5)}
+html.tz .tz-stat{border-left:2px solid #e10600;padding-left:.9rem;background:linear-gradient(90deg,rgba(225,6,0,.12),transparent)}
+html.tz .tz-stat dt{color:rgba(255,255,255,.55)}
+html.tz .tz-panel{background:linear-gradient(160deg,#101014,#07070a);border:1px solid rgba(225,6,0,.35);box-shadow:0 0 60px -15px rgba(225,6,0,.5)}
 /* scroll progress + cursor glow */
 .tz-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;pointer-events:none}
 .tz-progress i{display:block;height:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#8a0000,#ff3b30);box-shadow:0 0 12px #e10600}
@@ -378,3 +378,22 @@ html.tz .workspace-chat-frame > section.workspace-chat-panel.is-welcome > div:fi
 html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="text-white/70"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="text-white/60"]{color:rgba(255,255,255,.7)}
 html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/20"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/25"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/30"]{border-color:rgba(255,255,255,.22)}
 html.tz .workspace-chat-intro p{color:rgba(255,255,255,.6)}
+
+:root{--tz-ring:rgba(10,10,10,.35)}
+html.tz{--tz-ring:rgba(255,255,255,.32)}
+html:not(.tz) .tz-orb,html:not(.tz) .tz-scan,html:not(.tz) .tz-cursor,html:not(.tz) .tz-progress,html:not(.tz) .tz-eyebrow{display:none}
+html.tz .tz-dd{font-weight:300;font-size:1.9rem}
+html.tz :is(body,button,input,textarea,select,h1,h2,h3,h4,p,a,li,span,div,label,dt,dd,.font-display,.font-body){font-family:"Inter",system-ui,sans-serif}
+.tz-toggle{position:fixed;left:16px;bottom:16px;z-index:70;display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border-radius:999px;border:1px solid rgba(128,128,128,.45);background:rgba(10,10,10,.85);color:#fff;font:600 11px/1 "Inter",system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;backdrop-filter:blur(8px);transition:transform .2s,border-color .2s}
+.tz-toggle:hover{transform:translateY(-2px);border-color:#e10600}
+.tz-toggle:focus-visible{outline:2px solid #e10600;outline-offset:2px}
+.tz-toggle.on-chat{left:auto;bottom:auto;right:16px;top:12px}
+.tz-tg-track{position:relative;width:30px;height:16px;border-radius:99px;background:rgba(255,255,255,.18);transition:background .25s}
+.tz-tg-track i{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:transform .25s}
+.tz-toggle[aria-pressed="true"] .tz-tg-track{background:#e10600}
+.tz-toggle[aria-pressed="true"] .tz-tg-track i{transform:translateX(14px)}
+html:not(.tz) .tz-toggle{background:rgba(255,255,255,.95);color:#0a0a0a;border-color:rgba(0,0,0,.25)}
+html:not(.tz) .tz-tg-track{background:rgba(0,0,0,.25)}
+@media(max-width:640px){.tz-toggle{bottom:84px}}
+
+html:not(.tz) .tz-logobox{background:#fff;padding:.75rem}

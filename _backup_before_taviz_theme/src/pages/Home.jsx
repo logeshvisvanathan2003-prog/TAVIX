@@ -27,7 +27,7 @@ function Hero({ projects, feedback }) {
   const real = feedback.filter((f) => !f.demo);
   const avg = real.length ? (real.reduce((a, b) => a + b.rating, 0) / real.length).toFixed(1) : "–";
   return (
-    <section className="relative min-h-screen pt-48 lg:pt-24 pb-16 flex items-center overflow-hidden tz-hero">
+    <section className="relative min-h-screen pt-48 lg:pt-24 pb-16 flex items-center overflow-hidden bg-white tz-hero">
       <Particles /><span className="tz-orb a" aria-hidden="true" /><span className="tz-orb b" aria-hidden="true" /><span className="tz-scan" aria-hidden="true" />
       <div className="relative max-w-7xl mx-auto px-5 w-full grid lg:grid-cols-2 gap-10 items-center">
         <div>
@@ -37,11 +37,11 @@ function Hero({ projects, feedback }) {
           <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a></div>
           <dl className="mt-10 grid grid-cols-3 gap-4 max-w-md">
             {[["Projects delivered", done], ["Client rating", avg], ["Sectors", SECTORS.length]].map(([l, v]) => (
-              <div key={l} className="border-l-4 border-tavix-red pl-3"><dt className="text-sm text-black/60">{l}</dt><dd className="text-3xl font-light">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}
+              <div key={l} className="border-l-4 border-tavix-red pl-3 tz-stat"><dt className="text-sm text-black/60">{l}</dt><dd className="font-display text-2xl tz-dd">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}
           </dl>
         </div>
         <div className="relative flex justify-center">
-          <AnimLogo rings light className="w-full max-w-[560px]" />
+          <AnimLogo rings dk className="w-full max-w-[560px]" />
         </div>
       </div>
     </section>
