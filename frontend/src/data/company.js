@@ -1,6 +1,6 @@
 // Edit this file to change company facts, products and open roles. After editing, rebuild the frontend.
 // Also tell Taviz AI about changes: Admin > Teach Taviz AI.
-export const COMPANY = { name: "TAVIZ", legal: "TavixAI Technologies Solution Private Limited", motto: "Innovation with Honour", email: "logesh@tavix.in" };
+export const COMPANY = { name: "TAVIZ", legal: "TavixAI Technologies Solution Private Limited", motto: "Innovation with Honour", email: "taviz.ai@gmail.com" };
 
 export const PRODUCTS = [
   { id: "one", name: "ONE TAVIZ AI", status: "Live", url: "https://one.tavixai.in", external: true,

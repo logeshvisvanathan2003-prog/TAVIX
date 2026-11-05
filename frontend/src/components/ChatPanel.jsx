@@ -12,6 +12,18 @@ const LANGS = [["en-IN", "EN"], ["ta-IN", "தமிழ்"], ["hi-IN", "हि�
 const plain = (t) => t.replace(/[*`#_]/g, "").replace(/^\s*[-•]\s+/gm, "");
 const SUPPORT_INTENT = /\b(complaint|complain|raise (?:a )?ticket|support ticket|report (?:an? )?(?:issue|bug|problem)|file (?:a )?complaint|open (?:a )?ticket)\b/i;
 
+function ChatBg() {
+  return (
+    <div className="cb" aria-hidden="true">
+      <span className="cb-grid" /><span className="cb-scan" /><span className="cb-orb a" /><span className="cb-orb b" />
+      <div className="cb-logo">
+        <img className="cb-w l" src="/logo-wl.png" alt="" /><img className="cb-w r" src="/logo-wr.png" alt="" />
+        {["t", "a", "v", "i", "z"].map((k, i) => <img key={k} className={"cb-l" + (k === "z" ? " z" : "")} style={{ "--i": i }} src={`/logo-${k}-l.png`} alt="" />)}
+      </div>
+    </div>
+  );
+}
+
 function Thinking({ status, mission }) {
   const phrases = mission ? ["Reading your mission…", "Checking the requirements…", "Thinking it through…", "Writing the answer…"] : ["Reading your question…", "Checking what TAVIZ knows…", "Writing the answer…"];
   const [i, setI] = useState(0);
@@ -139,9 +151,10 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
   const big = variant !== "panel";
 
   return (
-    <section className={wrap + " bg-black text-white flex flex-col cut border border-tavix-red/60 animate-pop " + (big ? "text-lg" : "") + (variant === "page" ? ` workspace-chat-panel ${only ? "is-welcome" : "is-conversation"}` : "")}>
-      <header className="flex items-center gap-3 p-4 border-b border-white/15">
-        <WingMark className="w-9" /><div className="flex-1 min-w-0"><h3 className="text-xs">TAVIZ AI</h3>
+    <section className={wrap + " bg-black text-white flex flex-col cut border border-tavix-red/60 animate-pop cb-panel " + (big ? "text-lg" : "") + (variant === "page" ? ` workspace-chat-panel ${only ? "is-welcome" : "is-conversation"}` : "")}>
+      <ChatBg />
+      <header className="relative z-[1] flex items-center gap-3 p-4 border-b border-white/15 cb-head-bar">
+        <span className="cb-head"><WingMark className="w-9" /></span><div className="flex-1 min-w-0"><h3 className="text-xs">TAVIZ AI</h3>
           <p className="text-sm text-white/60 truncate"><span className={"inline-block w-2 h-2 mr-1.5 " + (online ? "bg-green-400" : "bg-tavix-red animate-pulse")} />{mission ? `Mission #${mission} · ` : ""}{online ? "TAVIZ-trained reasoning · your language" : (slow ? "Offline" : "Connecting…")}</p></div>
         <button onClick={() => { const v = !speak; setSpeak(v); setStored("tavix_speak", v ? "1" : "0"); if (!v) speechSynthesis?.cancel?.(); }} aria-pressed={speak} title="Read answers aloud"
           className={"px-2 py-1 border text-sm " + (speak ? "bg-tavix-red border-tavix-red" : "border-white/25 text-white/70")}>{speak ? "🔊 On" : "🔈 Off"}</button>
@@ -149,12 +162,12 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
         {onClose && <button onClick={onClose} aria-label="Close" className="text-white/60 hover:text-white px-1">✕</button>}
       </header>
 
-      <div ref={box} className="flex-1 overflow-y-auto thin-scroll p-4 space-y-4">
+      <div ref={box} className="relative z-[1] flex-1 overflow-y-auto thin-scroll p-4 space-y-4">
         {msgs.map((m, i) => m.role === "user"
-          ? <div key={i} className="flex justify-end fade-up"><p className="max-w-[85%] px-4 py-2.5 whitespace-pre-wrap cut-sm bg-tavix-red">{m.content}</p></div>
+          ? <div key={i} className="flex justify-end fade-up"><p className="max-w-[85%] px-4 py-2.5 whitespace-pre-wrap cut-sm bg-tavix-red cb-user">{m.content}</p></div>
           : m.role === "system" ? <div key={i} className="fade-up bg-white text-black font-semibold px-4 py-2.5 cut-sm"><p>{m.content}</p>{m.ticketId && <button className="mt-2 text-tavix-red underline" onClick={() => openSupportTicket(m.ticketId)}>Open support ticket #{m.ticketId}</button>}</div>
           : <div key={i} className="flex gap-3 fade-up"><WingMark className="w-6 shrink-0 mt-1.5 opacity-80" />
-              <div className="min-w-0 max-w-[92%] bg-white/10 px-4 py-3 cut-sm">{m.live ? <Typed text={m.content} live onTick={stick} /> : <Typed text={m.content} live={false} />}</div></div>)}
+              <div className="min-w-0 max-w-[92%] bg-white/10 px-4 py-3 cut-sm cb-bot">{m.live ? <Typed text={m.content} live onTick={stick} /> : <Typed text={m.content} live={false} />}</div></div>)}
         {ticketDraft && <form onSubmit={submitTicket} className="fade-up border border-tavix-red/60 bg-white/5 p-4 space-y-3">
           <div className="flex items-center gap-2"><h4 className="font-display text-xs flex-1">SEND TO TAVIZ SUPPORT</h4><button type="button" className="text-white/60" onClick={() => { setTicketDraft(null); setTicketError(""); }}>Cancel</button></div>
           <p className="text-sm text-white/70">This creates a private support ticket that the team can read and reply to in Admin &gt; Tickets.</p>
@@ -174,7 +187,7 @@ export default function ChatPanel({ mission, sessionId, variant = "panel", onClo
         {!online && slow && <p className="text-sm text-tavix-red">TAVIZ AI is not reachable right now. Please try again in a moment, or raise a support ticket below.</p>}
       </div>
 
-      <div className="p-3 border-t border-white/15 space-y-2">
+      <div className="relative z-[1] p-3 border-t border-white/15 space-y-2 cb-foot">
         {user && !ticketDraft && <button className="text-sm text-white/70 underline hover:text-white" onClick={() => {
           const complaint = lastUser.current.trim();
           setTicketDraft({ subject: "", message: complaint.length >= 3 ? complaint.slice(0, 3000) : "", category: mission ? "build" : "general" });
