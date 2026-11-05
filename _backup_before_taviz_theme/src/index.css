@@ -273,3 +273,108 @@ section[id], footer[id] { scroll-margin-top: 64px; }
 @keyframes cbSheen{to{left:120%}}
 @keyframes cbPop{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.cb *,.cb-panel,.cb-head,.cb-bot::after,.cb-user{animation:none!important}}
+
+/* ===== TAVIZ dark theme v34 ===== */
+html.tz{color-scheme:dark;--tz-bg:#050506;--tz-card:#0c0c0f;--tz-line:rgba(255,255,255,.1)}
+html.tz body{background:var(--tz-bg);color:#e9e9ec;font-family:"Inter",system-ui,sans-serif;font-weight:300;letter-spacing:.005em}
+html.tz h1,html.tz h2,html.tz h3,html.tz h4{font-family:"Inter",system-ui,sans-serif;font-weight:300;letter-spacing:-.01em;color:#fff}
+html.tz body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:radial-gradient(900px 500px at 78% -5%,rgba(225,6,0,.22),transparent 60%),radial-gradient(700px 480px at 5% 105%,rgba(225,6,0,.12),transparent 60%),
+ linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/56px 56px,linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/56px 56px;
+ animation:tzGrid 40s linear infinite}
+@keyframes tzGrid{to{background-position:0 0,0 0,56px 56px,56px 56px}}
+/* light utility overrides */
+html.tz .bg-white,html.tz .bg-white\/80,html.tz .bg-white\/95{background-color:transparent}
+html.tz section.bg-white{background:transparent}
+html.tz .bg-black\/5,html.tz .bg-black\/\[\.03\],html.tz .bg-gray-50,html.tz .bg-gray-100{background-color:rgba(255,255,255,.04)}
+html.tz .text-black,html.tz .text-tavix-ink{color:#fff}
+html.tz .text-black\/90,html.tz .text-black\/80{color:rgba(255,255,255,.88)}
+html.tz .text-black\/70,html.tz .text-black\/60{color:rgba(255,255,255,.66)}
+html.tz .text-black\/50,html.tz .text-black\/40{color:rgba(255,255,255,.48)}
+html.tz .border-black,html.tz .border-black\/10,html.tz .border-black\/20,html.tz .border-black\/5,html.tz .border-gray-200{border-color:var(--tz-line)}
+html.tz .divide-black\/10>*+*{border-color:var(--tz-line)}
+html.tz .bg-black{background-color:#0c0c0f}
+html.tz .text-tavix-red{color:#ff3b30}
+/* cards */
+html.tz .area-card,html.tz .glow-card{background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));border:1px solid var(--tz-line);color:#e9e9ec;backdrop-filter:blur(6px);transition:transform .35s,border-color .35s,box-shadow .35s}
+html.tz .area-card:hover,html.tz .glow-card:hover{transform:translateY(-4px);border-color:rgba(225,6,0,.65);box-shadow:0 14px 40px -12px rgba(225,6,0,.45)}
+html.tz .area-card h3,html.tz .area-card h4{color:#fff}
+html.tz .cut,html.tz .cut-sm{border:1px solid var(--tz-line)}
+/* inputs */
+html.tz .input,html.tz .input-l,html.tz input,html.tz textarea,html.tz select{background:rgba(255,255,255,.05);color:#fff;border:1px solid var(--tz-line);border-radius:0}
+html.tz input::placeholder,html.tz textarea::placeholder{color:rgba(255,255,255,.4)}
+html.tz input:focus,html.tz textarea:focus,html.tz select:focus{outline:none;border-color:#e10600;box-shadow:0 0 0 3px rgba(225,6,0,.22)}
+html.tz option{background:#0c0c0f;color:#fff}
+/* buttons */
+html.tz .btn{position:relative;overflow:hidden;background:linear-gradient(135deg,#e10600,#8a0000);color:#fff;border:0;box-shadow:0 8px 30px -8px rgba(225,6,0,.7);transition:transform .25s,box-shadow .25s}
+html.tz .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-120%)}
+html.tz .btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px -8px rgba(225,6,0,.9)}
+html.tz .btn:hover::after{transform:translateX(120%);transition:transform .8s}
+html.tz .btn-o{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35)}
+html.tz .btn-o:hover{border-color:#e10600;color:#fff;background:rgba(225,6,0,.12)}
+/* nav */
+.tz-nav{background:rgba(5,5,6,.55);border-color:transparent!important;backdrop-filter:blur(14px)}
+.tz-nav.is-scrolled{background:rgba(5,5,6,.88);border-color:rgba(255,255,255,.08)!important;box-shadow:0 10px 40px -20px rgba(225,6,0,.5)}
+.tz-nav a,.tz-nav button{color:rgba(255,255,255,.8)}
+.tz-nav a:hover{color:#fff}
+.tz-mobile{background:rgba(5,5,6,.97);border-top:1px solid rgba(255,255,255,.1)}
+.tz-mobile a,.tz-mobile button{color:#fff}
+.tz-nav .btn,.tz-mobile .btn{color:#fff}
+/* hero */
+.tz-hero{background:transparent}
+.tz-eyebrow{font-size:.72rem;letter-spacing:.35em;color:#ff3b30;margin-bottom:1rem;animation:tzFade .9s both}
+.tz-words .w{display:inline-block;opacity:0;transform:translateY(24px);filter:blur(6px);animation:tzWord .8s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i)*.09s + .2s)}
+.tz-words .w.ai{color:#ff3b30;text-shadow:0 0 28px rgba(225,6,0,.7)}
+@keyframes tzWord{to{opacity:1;transform:none;filter:none}}
+@keyframes tzFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.tz-orb{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.5}
+.tz-orb.a{width:420px;height:420px;right:-80px;top:10%;background:#e10600;animation:tzFloat 12s ease-in-out infinite}
+.tz-orb.b{width:300px;height:300px;left:-80px;bottom:5%;background:#8a0000;animation:tzFloat 15s ease-in-out infinite reverse}
+@keyframes tzFloat{50%{transform:translate(30px,-40px) scale(1.12)}}
+.tz-scan{position:absolute;left:0;right:0;height:140px;top:-140px;pointer-events:none;background:linear-gradient(transparent,rgba(225,6,0,.1),transparent);animation:tzScan 7s linear infinite}
+@keyframes tzScan{to{transform:translateY(120vh)}}
+.tz-stat{border-left:2px solid #e10600;padding-left:.9rem;background:linear-gradient(90deg,rgba(225,6,0,.12),transparent)}
+.tz-stat dt{color:rgba(255,255,255,.55)}
+.tz-panel{background:linear-gradient(160deg,#101014,#07070a);border:1px solid rgba(225,6,0,.35);box-shadow:0 0 60px -15px rgba(225,6,0,.5)}
+/* scroll progress + cursor glow */
+.tz-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;pointer-events:none}
+.tz-progress i{display:block;height:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#8a0000,#ff3b30);box-shadow:0 0 12px #e10600}
+.tz-cursor{position:fixed;left:0;top:0;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(225,6,0,.13),transparent 65%);mix-blend-mode:screen}
+@media (pointer:coarse){.tz-cursor{display:none}}
+/* red band / footer / misc */
+html.tz footer{background:#030304;border-top:1px solid rgba(225,6,0,.35)}
+html.tz .marquee{color:rgba(255,255,255,.7)}
+html.tz ::selection{background:#e10600;color:#fff}
+html.tz ::-webkit-scrollbar{width:10px}html.tz ::-webkit-scrollbar-track{background:#050506}html.tz ::-webkit-scrollbar-thumb{background:#3a0a0a;border-radius:6px}
+html.tz a{transition:color .2s}
+html.tz .termline{color:rgba(255,255,255,.6)}
+html.tz .reveal{transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion:reduce){.tz-words .w{animation:none;opacity:1;transform:none;filter:none}.tz-orb,.tz-scan,html.tz body::before{animation:none}}
+.tz-words .w{margin-right:.26em}
+html.tz [class*="text-black/"]{color:rgba(255,255,255,.7)}
+html.tz [class*="border-black/"]{border-color:var(--tz-line)}
+html.tz [class*="bg-black/"]{background-color:rgba(255,255,255,.05)}
+html.tz section[class~="bg-tavix-red"]{background:linear-gradient(120deg,#e10600,#8a0000 70%);position:relative;overflow:hidden}
+html.tz section[class~="bg-tavix-red"] .btn{background:#fff;color:#8a0000;box-shadow:0 10px 30px -10px rgba(0,0,0,.6)}
+html.tz section[class~="bg-tavix-red"] .btn:hover{background:#0a0a0a;color:#fff}
+html.tz .bg-neutral-950,html.tz .bg-neutral-900{background-color:#0c0c0f}
+/* workspace / chat dark */
+html.tz .workspace-main{background:transparent}
+html.tz .workspace-topbar{background:rgba(5,5,6,.85);border-bottom:1px solid var(--tz-line)}
+html.tz .workspace-menu-button{color:#fff;border-color:rgba(255,255,255,.25);background:transparent}
+html.tz .workspace-sidebar{background:radial-gradient(ellipse at 8% 0%,rgba(225,6,0,.25),transparent 40%),#08080a;border-right:1px solid var(--tz-line)}
+html.tz .workspace-chat-intro h2{font-family:"Inter",sans-serif;font-weight:300;color:#fff}
+html.tz .workspace-ai-shortcut{background:#1a1a1f}
+html.tz .cb-panel [class*="bg-white"],html.tz .workspace-chat-frame [class*="bg-white"]{background-color:rgba(10,10,13,.88)!important;color:#fff}
+html.tz .cb-panel .text-black,html.tz .workspace-chat-frame .text-black{color:#fff}
+html.tz .client-workspace{background:transparent;color:#e9e9ec}
+html.tz .client-missions-embed{background:rgba(255,255,255,.03);border-block:1px solid var(--tz-line)}
+html.tz .workspace-chat-frame > section.workspace-chat-panel{color:#e9e9ec}
+html.tz .workspace-chat-frame > section.workspace-chat-panel > div:last-of-type{background:rgba(12,12,15,.9);border:1px solid rgba(225,6,0,.35);box-shadow:0 0 40px -12px rgba(225,6,0,.5)}
+html.tz .workspace-chat-frame > section.workspace-chat-panel .input{color:#fff}
+html.tz .workspace-chat-frame > section.workspace-chat-panel .input::placeholder{color:rgba(255,255,255,.45)}
+html.tz .workspace-chat-frame > section.workspace-chat-panel.is-welcome > div:first-of-type > div:first-child > div:last-child{color:#e9e9ec}
+html.tz .workspace-chat-frame > section.workspace-chat-panel.is-welcome > div:first-of-type > div:last-of-type button{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.25)}
+html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="text-white/70"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="text-white/60"]{color:rgba(255,255,255,.7)}
+html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/20"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/25"],html.tz .workspace-chat-frame > section.workspace-chat-panel [class*="border-white/30"]{border-color:rgba(255,255,255,.22)}
+html.tz .workspace-chat-intro p{color:rgba(255,255,255,.6)}

@@ -4,5 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import { AuthProvider } from "./auth.jsx";
 import "./index.css";
-document.documentElement.classList.add("tz");
+import { initTheme } from "./theme.js";
+initTheme();
 createRoot(document.getElementById("root")).render(<BrowserRouter><AuthProvider><App /></AuthProvider></BrowserRouter>);
