@@ -11,8 +11,8 @@ export default function Auth({ mode }) {
     catch (x) { setErr(x.message); } finally { setBusy(false); } };
   return (
     <main className="relative min-h-screen grid place-items-center px-5 pt-20 overflow-hidden"><Particles />
-      <form onSubmit={submit} className="relative w-full max-w-md bg-black text-white p-8 cut space-y-4 animate-pop">
-        <div className="mx-auto w-44 bg-white p-3"><AnimLogo rings /></div>
+      <form onSubmit={submit} className="relative w-full max-w-md tz-panel text-white p-8 cut space-y-4 animate-pop">
+        <div className="mx-auto w-48"><AnimLogo rings light /></div>
         <h1 className="text-sm text-center">{reg ? "Create your TAVIZ account" : "Log in to TAVIZ"}</h1>
         {reg && <input required className="input" placeholder="Full name" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />}
         <input required type="email" className="input" placeholder="Email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} />

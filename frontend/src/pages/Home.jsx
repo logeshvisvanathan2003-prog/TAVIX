@@ -27,20 +27,21 @@ function Hero({ projects, feedback }) {
   const real = feedback.filter((f) => !f.demo);
   const avg = real.length ? (real.reduce((a, b) => a + b.rating, 0) / real.length).toFixed(1) : "–";
   return (
-    <section className="relative min-h-screen pt-48 lg:pt-24 pb-16 flex items-center overflow-hidden bg-white">
-      <Particles />
+    <section className="relative min-h-screen pt-48 lg:pt-24 pb-16 flex items-center overflow-hidden tz-hero">
+      <Particles /><span className="tz-orb a" aria-hidden="true" /><span className="tz-orb b" aria-hidden="true" /><span className="tz-scan" aria-hidden="true" />
       <div className="relative max-w-7xl mx-auto px-5 w-full grid lg:grid-cols-2 gap-10 items-center">
         <div>
-          <h1 className="text-3xl sm:text-5xl leading-tight">Software, hardware and AI that fix real problems.</h1>
+          <p className="tz-eyebrow">TAVIZ AI TECHNOLOGIES SOLUTIONS</p>
+          <h1 className="text-4xl sm:text-6xl leading-[1.08] tz-words">{"Software, hardware and AI that fix real problems.".split(" ").map((w, i) => <span key={i} style={{ "--i": i }} className={w === "AI" ? "w ai" : "w"}>{w} </span>)}</h1>
           <p className="mt-6 max-w-lg text-xl text-black/70">TAVIZ builds with web, ML, embedded systems and blockchain, and shows you every project, result and client review in the open. Innovation with honour.</p>
           <div className="mt-8 flex flex-wrap gap-4"><a href="#products" className="btn">Explore our products</a><a href="#portfolio" className="btn-o">See our work</a></div>
           <dl className="mt-10 grid grid-cols-3 gap-4 max-w-md">
             {[["Projects delivered", done], ["Client rating", avg], ["Sectors", SECTORS.length]].map(([l, v]) => (
-              <div key={l} className="border-l-4 border-tavix-red pl-3"><dt className="text-sm text-black/60">{l}</dt><dd className="font-display text-2xl">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}
+              <div key={l} className="border-l-4 border-tavix-red pl-3"><dt className="text-sm text-black/60">{l}</dt><dd className="text-3xl font-light">{typeof v === "number" ? <Counter to={v} /> : v}</dd></div>))}
           </dl>
         </div>
         <div className="relative flex justify-center">
-          <AnimLogo rings className="w-full max-w-[560px]" />
+          <AnimLogo rings light className="w-full max-w-[560px]" />
         </div>
       </div>
     </section>
@@ -133,7 +134,7 @@ function Feed({ feedback, reload, projects }) {
   return (
     <section id="feed" className="py-24 bg-black text-white"><div className="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-12">
       <div>
-        <Reveal><h2 className="text-2xl sm:text-3xl flex items-center gap-3"><span className="relative w-3 h-3 bg-tavix-red"><span className="absolute inset-0 bg-tavix-red animate-pulseRing" /></span>Live client feed</h2>
+        <Reveal><h2 className="text-2xl sm:text-3xl flex items-center gap-3"><span className="relative w-3 h-3 bg-tavix-red inline-block"><span className="absolute inset-0 bg-tavix-red animate-pulseRing" /></span>Live client feed</h2>
           <p className="mt-3 text-white/70 max-w-md">Reviews appear here as soon as clients post them. We do not edit or hide them.</p></Reveal>
         {user ? <form onSubmit={submit} className="mt-8 space-y-3 max-w-md">
           <textarea required minLength={5} className="input" rows={3} placeholder="How was working with TAVIZ?" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} />

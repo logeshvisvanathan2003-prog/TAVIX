@@ -9,6 +9,8 @@ import Auth from "./pages/Auth.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import Careers from "./pages/Careers.jsx";
 import GameHUD from "./components/GameHUD.jsx";
+import ScrollBar from "./components/ScrollBar.jsx";
+import GlowCursor from "./components/GlowCursor.jsx";
 import Admin from "./pages/Admin.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminOneTavix from "./pages/AdminOneTavix.jsx";
@@ -35,6 +37,7 @@ export default function App() {
   useEffect(() => { if (hash) setTimeout(() => document.querySelector(hash)?.scrollIntoView(), 50); else scrollTo(0, 0); }, [pathname, hash]);
   if (pathname.startsWith("/admin")) return <AdminShell />;
   return (<>
+    <ScrollBar /><GlowCursor />
     {pathname !== "/chat" && <Navbar />}
     <Routes>
       <Route path="/" element={<Home />} />
