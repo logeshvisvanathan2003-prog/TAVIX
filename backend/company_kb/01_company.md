@@ -1,8 +1,8 @@
 # TAVIZ company overview
 ## What is TAVIZ
-TAVIZ is the brand of TavixAI Technologies Solution Private Limited. It is a technology start-up that builds software, AI and hardware-plus-software products that solve real problems. The motto is "Innovation with Honour": clear scope, open progress and real client feedback.
+TAVIZ is the brand of TAVIZ AI Technologies Solution. It is a technology start-up that builds software, AI and hardware-plus-software products that solve real problems. The motto is "Innovation with Honour": clear scope, open progress and real client feedback.
 ## Name change
-TAVIZ AI was earlier written as TAVIZ AI, and ONE TAVIZ AI as ONE TAVIZ AI. It is the same company, with a new name and logo. The website addresses and email addresses stay the same for now.
+TAVIZ AI was earlier written as TAVIX AI, and ONE TAVIZ AI as ONE TAVIX AI. It is the same company, with a new name and logo. The website addresses and email addresses stay the same for now.
 ## Who founded TAVIZ
 TAVIZ was founded by Logesh Visvanathan, who is the Founder and CEO. He started TAVIZ to take on real problems in the automobile industry, inspired by Tesla's approach of joining hardware, software and AI.
 ## Motive and mission of the company
